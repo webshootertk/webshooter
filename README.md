@@ -1,2 +1,2 @@
 ## webshooter
-Creates AIMS websites.
+Creates websites: for a user, created by AIMS.
