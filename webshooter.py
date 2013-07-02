@@ -73,11 +73,11 @@ else:
         pass
     template = templates[template]
 # Color (if tshirt or bootstrap)
-    if template[0] is "tshirt" or template[0] is "bootstrap":
-      print(color_prompt)
-      cfg["color"] = ""
-      while cfg["color"] is "":
-        cfg["color"] = input("color> #").strip()
+#    if template[0] is "tshirt" or template[0] is "bootstrap":
+#      print(color_prompt)
+#      cfg["color"] = ""
+#      while cfg["color"] is "":
+#        cfg["color"] = input("color> #").strip()
 # Pages
     print(pages_prompt)
     pages = ""
@@ -89,10 +89,26 @@ else:
 
 # Set up the site
     subprocess.call(["git", "clone", "git://" + template[1], cfg["shortname"]])
-    f = open(cfg["shortname"] + "/site.yaml")
-    yaml_cfg = yaml.load(f.read())
-    for k,v in cfg.items(cfg):
-      yaml_cfg[k] = v
+    site = dict()
+    site["context"] = dict()
+    site["context"]["data"] = dict()
+    site["context"]["data"]["author"] = dict()
+    site["context"]["data"]["menu"] = list()
+    site["plugins"] = list()
+    site["mode"] = "development"
+    site["media_root"] = "media"
+    site["media_url"] = "/media"
+    site["context"]["data"]["site_title"] = cfg["longname"]
+    site["context"]["data"]["author"]["name"] = subprocess.call("whoami")
+    site["context"]["data"]["home_url"] = "index.html"
+    site["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
+    site["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
+    site["plugins"].append("hyde.ext.plugins.syntext.SyntextPlugin")
+    site["plugins"].append("hyde.ext.plugins.textlinks.TextlinksPlugin")
+    for p in pages:
+      site["context"]["data"]["menu"].append({"title": p, "url": p.lower().replace(" ", "-")})
+    f = open(cfg["shortname"] + "/site.yaml", "w")
+    f.write(yaml.dump(site))
 
   elif sys.argv[1] == "update":
     cfg["shortname"] = sys.argv[2]
