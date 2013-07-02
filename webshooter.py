@@ -4,6 +4,7 @@ import os
 import re
 import subprocess
 import sys
+import yaml
 
 cfg = dict()
 
@@ -89,7 +90,7 @@ else:
 # Set up the site
     subprocess.call(["git", "clone", "git://" + template[1], cfg["shortname"]])
     f = open(cfg["shortname"] + "/site.yaml")
-    yaml_cfg = yaml.load(f)
+    yaml_cfg = yaml.load(f.read())
     for k,v in cfg.items(cfg):
       yaml_cfg[k] = v
 
