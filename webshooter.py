@@ -20,7 +20,7 @@ the description now."""
 
 templates = {1: ("one.5lab",  "github.com/aims-group/one.5lab"),
              2: ("tshirt",    "github.com/aims-group/tshirt"),
-             3: ("bootstrap", "github.com/aims-group/bootstrap")}
+             3: ("bootstrap", "github.com/auzigog/hyde-bootstrap")}
 template_prompt = "What template to use?"
 for k,t in templates.items():
   template_prompt += "\n  " + str(k) + ": " + t[0] + " (" + t[1] + ")"
@@ -87,7 +87,7 @@ else:
     cfg["logo"] = input("logo> ").strip()
 
 # Set up the site
-    subprocess.call(["git", "clone", "-b", "hyde", "git://" + template[1], cfg["shortname"]])
+    subprocess.call(["git", "clone", "git://" + template[1], cfg["shortname"]])
     f = open(cfg["shortname"] + "/site.yaml")
     yaml_cfg = yaml.load(f)
     for k,v in cfg.items(cfg):
