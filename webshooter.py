@@ -5,6 +5,8 @@ import re
 import subprocess
 import sys
 
+cfg = dict()
+
 longname_prompt = """Your website will have two names.
 The longname is what users will see. It can have spaces.
 A good longname is 'My First Website'. Enter the longname now."""
@@ -44,22 +46,22 @@ else:
 # longname
     print(longname_prompt)
     cin = None
-    longname = ""
-    while longname is "":
-      longname = input("longname> ").strip()
+    cfg["longname"] = ""
+    while cfg["longname"] is "":
+      cfg["longname"] = input("longname> ").strip()
 # shortname
     print(shortname_prompt)
-    shortname = ""
-    while shortname is "":
-      shortname = input("shortname> ").strip()
-      if re.search("\s", shortname) is not None:
-        shortname = ""
+    cfg["shortname"] = ""
+    while cfg["shortname"] is "":
+      cfg["shortname"] = input("shortname> ").strip()
+      if re.search("\s", cfg["shortname"]) is not None:
+        cfg["shortname"] = ""
         print("The shortname cannot have spaces, try again.")
 # Description
     print(description_prompt)
-    description = ""
-    while description is "":
-      description = input("description> ").strip()
+    cfg["description"] = ""
+    while cfg["description"] is "":
+      cfg["description"] = input("description> ").strip()
 # Template
     print(template_prompt)
     template = ""
@@ -72,9 +74,9 @@ else:
 # Color (if tshirt or bootstrap)
     if template[0] is "tshirt" or template[0] is "bootstrap":
       print(color_prompt)
-      color = ""
-      while color is "":
-        color = input("color> #").strip()
+      cfg["color"] = ""
+      while cfg["color"] is "":
+        cfg["color"] = input("color> #").strip()
 # Pages
     print(pages_prompt)
     pages = ""
@@ -82,12 +84,19 @@ else:
       pages = [ p.strip() for p in input("pages> ").split(",") ]
 # Logo
     print(logo_prompt)
-    logo = input("logo> ").strip()
+    cfg["logo"] = input("logo> ").strip()
 
 # Set up the site
-    subprocess.call(["git", "clone", "git://" + template[1], shortname])
+    subprocess.call(["git", "clone", "-b", "hyde", "git://" + template[1], cfg["shortname"]])
+    f = open(cfg["shortname"] + "/site.yaml")
+    yaml_cfg = yaml.load(f)
+    for k,v in cfg.items(cfg):
+      yaml_cfg[k] = v
+
   elif sys.argv[1] == "update":
-    print("Not implemented yet")
+    cfg["shortname"] = sys.argv[2]
+    f = open(cfg["shortname"] + "/site.yaml")
+    yaml = cfg = yaml.load(f)
 
 def check_deps():
 # python3
