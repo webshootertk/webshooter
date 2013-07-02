@@ -85,7 +85,7 @@ else:
     logo = input("logo> ").strip()
 
 # Set up the site
-    subprocess.call(["git", "clone", "git://" + template[1]])
+    subprocess.call(["git", "clone", "git://" + template[1], shortname])
   elif sys.argv[1] == "update":
     print("Not implemented yet")
 
