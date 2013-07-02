@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
+import getpass
 import os
 import re
+import shutil
 import subprocess
 import sys
 import yaml
@@ -58,6 +60,11 @@ else:
       if re.search("\s", cfg["shortname"]) is not None:
         cfg["shortname"] = ""
         print("The shortname cannot have spaces, try again.")
+      if os.path.exists(cfg["shortname"]):
+        if input("A file/folder named " + cfg["shortname"] + " already exists here. Delete the whole thing [y/N]? ").lower() == 'y':
+          shutil.rmtree(cfg["shortname"])
+        else:
+          cfg["shortname"] = ""
 # Description
     print(description_prompt)
     cfg["description"] = ""
@@ -84,8 +91,8 @@ else:
     while pages is "":
       pages = [ p.strip() for p in input("pages> ").split(",") ]
 # Logo
-    print(logo_prompt)
-    cfg["logo"] = input("logo> ").strip()
+#    print(logo_prompt)
+#    cfg["logo"] = input("logo> ").strip()
 
 # Set up the site
     subprocess.call(["git", "clone", "git://" + template[1], cfg["shortname"]])
@@ -99,14 +106,16 @@ else:
     site["media_root"] = "media"
     site["media_url"] = "/media"
     site["context"]["data"]["site_title"] = cfg["longname"]
-    site["context"]["data"]["author"]["name"] = subprocess.call("whoami")
+    site["context"]["data"]["author"]["name"] = getpass.getuser()
     site["context"]["data"]["home_url"] = "index.html"
     site["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
     site["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
     site["plugins"].append("hyde.ext.plugins.syntext.SyntextPlugin")
     site["plugins"].append("hyde.ext.plugins.textlinks.TextlinksPlugin")
     for p in pages:
-      site["context"]["data"]["menu"].append({"title": p, "url": p.lower().replace(" ", "-")})
+      filename = p.lower().replace(" ", "-") + ".html"
+      site["context"]["data"]["menu"].append({"title": p, "url": filename})
+      open(filename, 'a').close()
     f = open(cfg["shortname"] + "/site.yaml", "w")
     f.write(yaml.dump(site))
 
