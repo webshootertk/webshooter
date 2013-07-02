@@ -115,7 +115,7 @@ else:
     for p in pages:
       filename = p.lower().replace(" ", "-") + ".html"
       site["context"]["data"]["menu"].append({"title": p, "url": filename})
-      open(filename, 'a').close()
+      open(shortname + "/content/" + filename, 'a').close()
     f = open(cfg["shortname"] + "/site.yaml", "w")
     f.write(yaml.dump(site))
 
