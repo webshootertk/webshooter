@@ -10,6 +10,11 @@ import tempfile
 import time
 import yaml
 
+if sys.version_info[0] == 2:
+  if raw_input("""I was written in Python 3.x, but you're running me with Python 2.x! I was NOT
+tested with this version. Run anyway? [y/N] """).lower() != "y":
+    sys.exit()
+
 cfg = dict()
 
 longname_prompt = """Your website will have two names.
@@ -41,6 +46,10 @@ pages_prompt = """What pages will exist?
 logo_prompt = """Specify a path to a logo which will be copied to your site's directory. If you
 don't have one yet, just press Return."""
 
+def hyde_gen(path):
+  subprocess.Popen(["hyde", "gen"], cwd=path, stdout=subprocess.DEVNULL)
+  print("Complete! Now open\n\n  " + os.path.abspath(path) + "/deploy/index.html\n\nin a web browser.")
+
 # Replaces all occurrances of pattern with subst in file_path
 # from http://stackoverflow.com/a/39110/392225
 def replace(file_path, pattern, subst):
@@ -67,7 +76,7 @@ commands:
   new              Interactively create a new website
   gen <site_path>  Regenerate the content for the site at `site_path`"""
   )
-elif len(sys.argv) is 3 and sys.argv[2] == "--help":
+elif ( len(sys.argv) is 3 and sys.argv[2] == "--help" ) or ( len(sys.argv) is 2 and sys.argv[1] == "gen" ):
   if sys.argv[1] == "new":
     print("""usage: """ + sys.argv[0] + """ new [--help]
 
@@ -168,19 +177,10 @@ else:
     replace(cfg["shortname"] + "/content/index.html", "Page name", "Home")
     f = open(cfg["shortname"] + "/site.yaml", "w")
     f.write(yaml.dump(site))
+    hyde_gen(os.getcwd() + "/" + cfg["shortname"])
 
-    subprocess.Popen(["hyde", "gen"], cwd=os.getcwd() + "/" + cfg["shortname"])
-
-    print("""Complete! Now open
-
-  """ + os.getcwd() + "/" + cfg["shortname"] + """/deploy/index.html
-
-in a web browser.""")
-
-  elif sys.argv[1] == "update":
-    cfg["shortname"] = sys.argv[2]
-    f = open(cfg["shortname"] + "/site.yaml")
-    yaml = cfg = yaml.load(f)
+  elif sys.argv[1] == "gen":
+    hyde_gen(sys.argv[2])
 
 def check_deps():
 # python3
