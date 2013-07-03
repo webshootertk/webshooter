@@ -39,6 +39,10 @@ pages_prompt = """What pages will exist?
 logo_prompt = """Specify a path to a logo which will be copied to your site's directory. If you
 don't have one yet, just press Return."""
 
+run_prompt = """Site generation complete! Start a server on port 8080 now? If you don't, you'll
+have to cd into your site's directory and manually run `hyde gen` and, if you
+want a miniserver running, `hyde serve`. [y/N] """
+
 if len(sys.argv) < 2 or sys.argv[1] == "--help":
   print(
   """usage: """ + sys.argv[0] + """ new
@@ -115,9 +119,13 @@ else:
     for p in pages:
       filename = p.lower().replace(" ", "-") + ".html"
       site["context"]["data"]["menu"].append({"title": p, "url": filename})
-      open(cfg["shortname"] + "/content/" + filename, 'a').close()
+      shutil.copy(cfg["shortname"] + "/content/index.html", cfg["shortname"] + "/content/" + filename)
     f = open(cfg["shortname"] + "/site.yaml", "w")
     f.write(yaml.dump(site))
+
+    if input(run_prompt).lower() == "y":
+      subprocess.Popen(["hyde", "gen"], cwd=os.getcwd() + "/" + cfg["shortname"])
+      subprocess.Popen(["hyde", "serve"], cwd=os.getcwd() + "/" + cfg["shortname"])
 
   elif sys.argv[1] == "update":
     cfg["shortname"] = sys.argv[2]
