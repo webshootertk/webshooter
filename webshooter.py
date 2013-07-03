@@ -61,9 +61,37 @@ def replace(file_path, pattern, subst):
 
 if len(sys.argv) < 2 or sys.argv[1] == "--help":
   print(
-  """usage: """ + sys.argv[0] + """ new
-       """      + sys.argv[0] + """ update"""
+  """usage: """ + sys.argv[0] + """ <command> [--help]
+
+commands:
+  new              Interactively create a new website
+  gen <site_path>  Regenerate the content for the site at `site_path`"""
   )
+elif len(sys.argv) is 3 and sys.argv[2] == "--help":
+  if sys.argv[1] == "new":
+    print("""usage: """ + sys.argv[0] + """ new [--help]
+
+  Runs an interactive prompt to create a new website using webshooter. Asks for
+  website information such as longname, shortname, template, and a list of pages.
+  When the process is complete, the desired template will be cloned into the
+  current working directory and your settings for the site will be applied. At
+  this point, you should go into this new directory and change the pages in
+  the `content` directory to your liking.
+
+  Whenever you change the content of the website and wish for it to be
+  regenerated, use `""" + sys.argv[0] + """ gen`.""")
+  elif sys.argv[1] == "gen":
+    print("""usage: """ + sys.argv[0] + """ gen <site_path>
+       """ + sys.argv[0] + """ gen --help
+
+  Regenerates the static content for the website at `site_path` using hyde. You
+  should run this whenever any changes are made to the site that you wish to be
+  reflected in the deployed version.
+
+  To make changes, edit the files in `layout` and `content`, as well as
+  `site.yaml`. After running """ + sys.argv[0] + """, these changes will be
+  reflected in the `deploy` directory.""")
+
 else:
   if sys.argv[1] == "new":
 # longname
