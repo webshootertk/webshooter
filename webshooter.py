@@ -6,6 +6,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 import yaml
 
@@ -22,9 +23,9 @@ Enter the shortname now."""
 description_prompt = """The description is displayed in your site's header, below the longname. Enter
 the description now."""
 
-templates = {1: ("one.5lab",  "github.com/aims-group/one.5lab"),
-             2: ("tshirt",    "github.com/aims-group/tshirt"),
-             3: ("bootstrap", "github.com/aims-group/hyde-bootstrap")}
+templates = {1: ("bootstrap", "github.com/aims-group/hyde-bootstrap")}
+#            2: ("tshirt",    "github.com/aims-group/tshirt"),
+#            3: ("one.5lab",  "github.com/aims-group/one.5lab")}
 template_prompt = "What template to use?"
 for k,t in templates.items():
   template_prompt += "\n  " + str(k) + ": " + t[0] + " (" + t[1] + ")"
@@ -39,6 +40,24 @@ pages_prompt = """What pages will exist?
 
 logo_prompt = """Specify a path to a logo which will be copied to your site's directory. If you
 don't have one yet, just press Return."""
+
+# Replaces all occurrances of pattern with subst in file_path
+# from http://stackoverflow.com/a/39110/392225
+def replace(file_path, pattern, subst):
+# Create temp file
+  fh, abs_path = tempfile.mkstemp()
+  new_file = open(abs_path,'w')
+  old_file = open(file_path)
+  for line in old_file:
+    new_file.write(line.replace(pattern, subst))
+# Close temp file
+  new_file.close()
+  os.close(fh)
+  old_file.close()
+# Remove original file
+  os.remove(file_path)
+# Move new file
+  shutil.move(abs_path, file_path)
 
 if len(sys.argv) < 2 or sys.argv[1] == "--help":
   print(
@@ -117,6 +136,8 @@ else:
       filename = p.lower().replace(" ", "-") + ".html"
       site["context"]["data"]["menu"].append({"title": p, "url": filename})
       shutil.copy(cfg["shortname"] + "/content/index.html", cfg["shortname"] + "/content/" + filename)
+      replace(cfg["shortname"] + "/content/" + filename, "Page name", p)
+    replace(cfg["shortname"] + "/content/index.html", "Page name", "Home")
     f = open(cfg["shortname"] + "/site.yaml", "w")
     f.write(yaml.dump(site))
 
