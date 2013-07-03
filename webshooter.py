@@ -103,7 +103,6 @@ else:
   if sys.argv[1] == "new":
 # longname
     print(longname_prompt)
-    cin = None
     longname = ""
     while longname is "":
       longname = input("longname> ").strip()
