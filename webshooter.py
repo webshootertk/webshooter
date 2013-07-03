@@ -67,10 +67,10 @@ else:
         else:
           cfg["shortname"] = ""
 # Description
-    print(description_prompt)
-    cfg["description"] = ""
-    while cfg["description"] is "":
-      cfg["description"] = input("description> ").strip()
+#    print(description_prompt)
+#    cfg["description"] = ""
+#    while cfg["description"] is "":
+#      cfg["description"] = input("description> ").strip()
 # Template
     print(template_prompt)
     template = ""
@@ -90,7 +90,7 @@ else:
     print(pages_prompt)
     pages = ""
     while pages is "":
-      pages = [ p.strip() for p in input("pages> ").split(",") ]
+      pages = [ p.strip() for p in input("pages> Home, ").split(",") ]
 # Logo
 #    print(logo_prompt)
 #    cfg["logo"] = input("logo> ").strip()
@@ -112,6 +112,7 @@ else:
     site["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
     site["plugins"].append("hyde.ext.plugins.syntext.SyntextPlugin")
     site["plugins"].append("hyde.ext.plugins.textlinks.TextlinksPlugin")
+    site["context"]["data"]["menu"].append({"title": "Home", "url": "index.html"})
     for p in pages:
       filename = p.lower().replace(" ", "-") + ".html"
       site["context"]["data"]["menu"].append({"title": p, "url": filename})
