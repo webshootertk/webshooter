@@ -15,8 +15,6 @@ if sys.version_info[0] == 2:
 tested with this version. Run anyway? [y/N] """).lower() != "y":
     sys.exit()
 
-cfg = dict()
-
 longname_prompt = """Your website will have two names.
 The longname is what users will see. It can have spaces.
 A good longname is 'My First Website'. Enter the longname now."""
@@ -106,27 +104,27 @@ else:
 # longname
     print(longname_prompt)
     cin = None
-    cfg["longname"] = ""
-    while cfg["longname"] is "":
-      cfg["longname"] = input("longname> ").strip()
+    longname = ""
+    while longname is "":
+      longname = input("longname> ").strip()
 # shortname
     print(shortname_prompt)
-    cfg["shortname"] = ""
-    while cfg["shortname"] is "":
-      cfg["shortname"] = input("shortname> ").strip()
-      if re.search("\s", cfg["shortname"]) is not None:
-        cfg["shortname"] = ""
+    shortname = ""
+    while shortname is "":
+      shortname = input("shortname> ").strip()
+      if re.search("\s", shortname) is not None:
+        shortname = ""
         print("The shortname cannot have spaces, try again.")
-      if os.path.exists(cfg["shortname"]):
-        if input("A file/folder named " + cfg["shortname"] + " already exists here. Delete the whole thing [y/N]? ").lower() == 'y':
-          shutil.rmtree(cfg["shortname"])
+      if os.path.exists(shortname):
+        if input("A file/folder named " + shortname + " already exists here. Delete the whole thing [y/N]? ").lower() == 'y':
+          shutil.rmtree(shortname)
         else:
-          cfg["shortname"] = ""
+          shortname = ""
 # Description
 #    print(description_prompt)
-#    cfg["description"] = ""
-#    while cfg["description"] is "":
-#      cfg["description"] = input("description> ").strip()
+#    description = ""
+#    while description is "":
+#      description = input("description> ").strip()
 # Template
     print(template_prompt)
     template = ""
@@ -139,9 +137,9 @@ else:
 # Color (if tshirt or bootstrap)
 #    if template[0] is "tshirt" or template[0] is "bootstrap":
 #      print(color_prompt)
-#      cfg["color"] = ""
-#      while cfg["color"] is "":
-#        cfg["color"] = input("color> #").strip()
+#      color = ""
+#      while color is "":
+#        color = input("color> #").strip()
 # Pages
     print(pages_prompt)
     pages = ""
@@ -149,10 +147,10 @@ else:
       pages = [ p.strip() for p in input("pages> Home, ").split(",") ]
 # Logo
 #    print(logo_prompt)
-#    cfg["logo"] = input("logo> ").strip()
+#    logo = input("logo> ").strip()
 
 # Set up the site
-    subprocess.call(["git", "clone", "git://" + template[1], cfg["shortname"]])
+    subprocess.call(["git", "clone", "git://" + template[1], shortname])
     site = dict()
     site["context"] = dict()
     site["context"]["data"] = dict()
@@ -161,7 +159,7 @@ else:
     site["plugins"] = list()
     site["mode"] = "development"
     site["media_url"] = "media"
-    site["context"]["data"]["site_title"] = cfg["longname"]
+    site["context"]["data"]["site_title"] = longname
     site["context"]["data"]["author"]["name"] = getpass.getuser()
     site["context"]["data"]["home_url"] = "index.html"
     site["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
@@ -172,12 +170,12 @@ else:
     for p in pages:
       filename = p.lower().replace(" ", "-") + ".html"
       site["context"]["data"]["menu"].append({"title": p, "url": filename})
-      shutil.copy(cfg["shortname"] + "/content/index.html", cfg["shortname"] + "/content/" + filename)
-      replace(cfg["shortname"] + "/content/" + filename, "Page name", p)
-    replace(cfg["shortname"] + "/content/index.html", "Page name", "Home")
-    f = open(cfg["shortname"] + "/site.yaml", "w")
+      shutil.copy(shortname + "/content/index.html", shortname + "/content/" + filename)
+      replace(shortname + "/content/" + filename, "Page name", p)
+    replace(shortname + "/content/index.html", "Page name", "Home")
+    f = open(shortname + "/site.yaml", "w")
     f.write(yaml.dump(site))
-    hyde_gen(os.getcwd() + "/" + cfg["shortname"])
+    hyde_gen(os.getcwd() + "/" + shortname)
 
   elif sys.argv[1] == "gen":
     hyde_gen(sys.argv[2])
