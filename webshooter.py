@@ -6,6 +6,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import yaml
 
 cfg = dict()
@@ -38,10 +39,6 @@ pages_prompt = """What pages will exist?
 
 logo_prompt = """Specify a path to a logo which will be copied to your site's directory. If you
 don't have one yet, just press Return."""
-
-run_prompt = """Site generation complete! Start a server on port 8080 now? If you don't, you'll
-have to cd into your site's directory and manually run `hyde gen` and, if you
-want a miniserver running, `hyde serve`. [y/N] """
 
 if len(sys.argv) < 2 or sys.argv[1] == "--help":
   print(
@@ -107,8 +104,7 @@ else:
     site["context"]["data"]["menu"] = list()
     site["plugins"] = list()
     site["mode"] = "development"
-    site["media_root"] = "media"
-    site["media_url"] = "/media"
+    site["media_url"] = "media"
     site["context"]["data"]["site_title"] = cfg["longname"]
     site["context"]["data"]["author"]["name"] = getpass.getuser()
     site["context"]["data"]["home_url"] = "index.html"
@@ -123,9 +119,13 @@ else:
     f = open(cfg["shortname"] + "/site.yaml", "w")
     f.write(yaml.dump(site))
 
-    if input(run_prompt).lower() == "y":
-      subprocess.Popen(["hyde", "gen"], cwd=os.getcwd() + "/" + cfg["shortname"])
-      subprocess.Popen(["hyde", "serve"], cwd=os.getcwd() + "/" + cfg["shortname"])
+    subprocess.Popen(["hyde", "gen"], cwd=os.getcwd() + "/" + cfg["shortname"])
+
+    print("""Complete! Now open
+
+  """ + os.getcwd() + "/" + cfg["shortname"] + """/deploy/index.html
+
+in a web browser.""")
 
   elif sys.argv[1] == "update":
     cfg["shortname"] = sys.argv[2]
