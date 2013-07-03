@@ -23,7 +23,7 @@ the description now."""
 
 templates = {1: ("one.5lab",  "github.com/aims-group/one.5lab"),
              2: ("tshirt",    "github.com/aims-group/tshirt"),
-             3: ("bootstrap", "github.com/auzigog/hyde-bootstrap")}
+             3: ("bootstrap", "github.com/aims-group/hyde-bootstrap")}
 template_prompt = "What template to use?"
 for k,t in templates.items():
   template_prompt += "\n  " + str(k) + ": " + t[0] + " (" + t[1] + ")"
