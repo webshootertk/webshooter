@@ -170,7 +170,7 @@ else:
     for p in pages:
       filename = p.lower().replace(" ", "-") + ".html"
       site["context"]["data"]["menu"].append({"title": p, "url": filename})
-      shutil.copy(shortname + "/content/index.html", shortname + "/content/" + filename)
+      shutil.copy(shortname + "/content/blank.html", shortname + "/content/" + filename)
       replace(shortname + "/content/" + filename, "Page name", p)
     replace(shortname + "/content/index.html", "Page name", "Home")
     f = open(shortname + "/site.yaml", "w")
