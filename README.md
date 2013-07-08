@@ -9,5 +9,5 @@ websites that get spit out already wearing one of a few templates:
 [hyde/hyde]: https://github.com/hyde/hyde
 [twitter/bootstrap]: https://github.com/twitter/bootstrap
 [aims-group/hyde-bootstrap]: https://github.com/aims-group/hyde-bootstrap
-[aims-group/one.5lab]: https://github.com/aims-group/hyde-one.5lab
-[aims-group/tshirt]: https://github.com/aims-group/hyde-tshirt
+[aims-group/one.5lab]: https://github.com/aims-group/one.5lab
+[aims-group/tshirt]: https://github.com/aims-group/tshirt
