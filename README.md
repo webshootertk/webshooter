@@ -2,7 +2,7 @@
 Webshooter is a Python 3.x script to quickly generate [hyde/hyde][]-powered
 websites that get spit out already wearing one of a few templates:
 
-  * [twitter/bootstrap][] via [aims-group/bootstrap][]
+  * [twitter/bootstrap][] via [aims-group/hyde-bootstrap][]
   * ~~[aims-group/one.5lab][]~~ (not yet)
   * ~~[aims-group/tshirt][]~~ (not yet)
 
