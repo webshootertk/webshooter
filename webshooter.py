@@ -101,14 +101,19 @@ elif ( len(sys.argv) is 3 and sys.argv[2] == "--help" ) or ( len(sys.argv) is 2 
 
 else:
   if sys.argv[1] == "new":
+
+    longname = ""
+    shortname = ""
+    template = ""
+    color = ""
+    pages = ""
+
 # longname
     print(longname_prompt)
-    longname = ""
     while longname is "":
       longname = input("longname> ").strip()
 # shortname
     print(shortname_prompt)
-    shortname = ""
     while shortname is "":
       shortname = input("shortname> ").strip()
       if re.search("\s", shortname) is not None:
@@ -119,34 +124,23 @@ else:
           shutil.rmtree(shortname)
         else:
           shortname = ""
-# Description
-#    print(description_prompt)
-#    description = ""
-#    while description is "":
-#      description = input("description> ").strip()
 # Template
     print(template_prompt)
-    template = ""
     while template not in templates:
       try:
         template = int(input("template> ").strip())
       except ValueError:
         pass
     template = templates[template]
-# Color (if tshirt or bootstrap)
-#    if template[0] is "tshirt" or template[0] is "bootstrap":
-#      print(color_prompt)
-#      color = ""
-#      while color is "":
-#        color = input("color> #").strip()
+# Color (if tshirt)
+    if template[0] is "tshirt"
+      print(color_prompt)
+      while color is "":
+        color = input("color> #").strip()
 # Pages
     print(pages_prompt)
-    pages = ""
     while pages is "":
       pages = [ p.strip() for p in input("pages> Home, ").split(",") ]
-# Logo
-#    print(logo_prompt)
-#    logo = input("logo> ").strip()
 
 # Set up the site
     subprocess.call(["git", "clone", "git://" + template[1], shortname])
@@ -159,7 +153,7 @@ else:
     site["mode"] = "development"
     site["media_url"] = "media"
     site["context"]["data"]["site_title"] = longname
-    site["context"]["data"]["author"]["name"] = getpass.getuser()
+#   site["context"]["data"]["author"]["name"] = getpass.getuser()
     site["context"]["data"]["home_url"] = "index.html"
     site["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
     site["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
