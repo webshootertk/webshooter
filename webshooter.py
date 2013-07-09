@@ -133,7 +133,7 @@ else:
         pass
     template = templates[template]
 # Color (if tshirt)
-    if template[0] is "tshirt"
+    if template[0] is "tshirt":
       print(color_prompt)
       while color is "":
         color = input("color> #").strip()
