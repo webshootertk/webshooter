@@ -15,6 +15,40 @@ if sys.version_info[0] == 2:
 tested with this version. Run anyway? [y/N] """).lower() != "y":
     sys.exit()
 
+class WebshooterSite:
+  def __init__(self):
+    self.longname  = None
+    self.shortname = None
+    self.template  = None
+    self.color     = None
+    self.pages     = None
+
+  @property
+  def yaml(self):
+    site_yaml = dict()
+    site_yaml["context"] = dict()
+    site_yaml["context"]["data"] = dict()
+    site_yaml["context"]["data"]["author"] = dict()
+    site_yaml["context"]["data"]["menu"] = list()
+    site_yaml["plugins"] = list()
+    site_yaml["mode"] = "development"
+    site_yaml["media_url"] = "media"
+    site_yaml["context"]["data"]["site_title"] = site.longname
+#   site_yaml["context"]["data"]["author"]["name"] = getpass.getuser()
+    site_yaml["context"]["data"]["home_url"] = "index.html"
+    site_yaml["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
+    site_yaml["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
+    site_yaml["plugins"].append("hyde.ext.plugins.syntext.SyntextPlugin")
+    site_yaml["plugins"].append("hyde.ext.plugins.textlinks.TextlinksPlugin")
+    site_yaml["context"]["data"]["menu"].append({"title": "Home", "url": "index.html"})
+    for p in site.pages:
+      filename = p.lower().replace(" ", "-") + ".html"
+      site_yaml["context"]["data"]["menu"].append({"title": p, "url": filename})
+      shutil.copy(site.shortname + "/content/blank.html", site.shortname + "/content/" + filename)
+      replace(site.shortname + "/content/" + filename, "Page name", p)
+    return yaml.dump(site_yaml)
+
+
 longname_prompt = """Your website will have two names.
 The longname is what users will see. It can have spaces.
 A good longname is 'My First Website'. Enter the longname now."""
@@ -102,73 +136,50 @@ elif ( len(sys.argv) is 3 and sys.argv[2] == "--help" ) or ( len(sys.argv) is 2 
 else:
   if sys.argv[1] == "new":
 
-    longname = ""
-    shortname = ""
+    site = WebshooterSite()
     template = ""
     color = ""
     pages = ""
 
 # longname
     print(longname_prompt)
-    while longname is "":
-      longname = input("longname> ").strip()
+    while not bool(site.longname):
+      site.longname = input("longname> ").strip()
 # shortname
     print(shortname_prompt)
-    while shortname is "":
-      shortname = input("shortname> ").strip()
-      if re.search("\s", shortname) is not None:
-        shortname = ""
+    while not bool(site.shortname):
+      site.shortname = input("shortname> ").strip()
+      if re.search("\s", site.shortname) is not None:
+        site.shortname = ""
         print("The shortname cannot have spaces, try again.")
-      if os.path.exists(shortname):
+      elif os.path.exists(site.shortname):
         if input("A file/folder named " + shortname + " already exists here. Delete the whole thing [y/N]? ").lower() == 'y':
-          shutil.rmtree(shortname)
+          shutil.rmtree(site.shortname)
         else:
-          shortname = ""
+          site.shortname = ""
 # Template
     print(template_prompt)
-    while template not in templates:
+    while site.template not in templates.values():
       try:
-        template = int(input("template> ").strip())
-      except ValueError:
+        site.template = templates[int(input("template> ").strip())]
+      except (KeyError, ValueError):
         pass
-    template = templates[template]
 # Color (if tshirt)
-    if template[0] is "tshirt":
+    if site.template[0] is "tshirt":
       print(color_prompt)
-      while color is "":
-        color = input("color> #").strip()
+      while site.color is "":
+        site.color = input("color> #").strip()
 # Pages
     print(pages_prompt)
-    while pages is "":
-      pages = [ p.strip() for p in input("pages> Home, ").split(",") ]
+    while not bool(site.pages):
+      site.pages = [ p.strip() for p in input("pages> Home, ").split(",") ]
 
 # Set up the site
-    subprocess.call(["git", "clone", "git://" + template[1], shortname])
-    site = dict()
-    site["context"] = dict()
-    site["context"]["data"] = dict()
-    site["context"]["data"]["author"] = dict()
-    site["context"]["data"]["menu"] = list()
-    site["plugins"] = list()
-    site["mode"] = "development"
-    site["media_url"] = "media"
-    site["context"]["data"]["site_title"] = longname
-#   site["context"]["data"]["author"]["name"] = getpass.getuser()
-    site["context"]["data"]["home_url"] = "index.html"
-    site["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
-    site["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
-    site["plugins"].append("hyde.ext.plugins.syntext.SyntextPlugin")
-    site["plugins"].append("hyde.ext.plugins.textlinks.TextlinksPlugin")
-    site["context"]["data"]["menu"].append({"title": "Home", "url": "index.html"})
-    for p in pages:
-      filename = p.lower().replace(" ", "-") + ".html"
-      site["context"]["data"]["menu"].append({"title": p, "url": filename})
-      shutil.copy(shortname + "/content/blank.html", shortname + "/content/" + filename)
-      replace(shortname + "/content/" + filename, "Page name", p)
-    replace(shortname + "/content/index.html", "Page name", "Home")
-    f = open(shortname + "/site.yaml", "w")
-    f.write(yaml.dump(site))
-    hyde_gen(os.getcwd() + "/" + shortname)
+    subprocess.call(["git", "clone", "git://" + site.template[1], site.shortname])
+    replace(site.shortname + "/content/index.html", "Page name", "Home")
+    open(site.shortname + "/site.yaml", "w").write(site.yaml)
+    subprocess.call(["chmod", "755", site.shortname + "/content/media")
+    hyde_gen(os.getcwd() + "/" + site.shortname)
 
   elif sys.argv[1] == "gen":
     hyde_gen(sys.argv[2])
