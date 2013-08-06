@@ -60,9 +60,9 @@ Enter the shortname now."""
 description_prompt = """The description is displayed in your site's header, below the longname. Enter
 the description now."""
 
-templates = {1: ("bootstrap", "github.com/aims-group/hyde-bootstrap")}
-#            2: ("tshirt",    "github.com/aims-group/tshirt"),
-#            3: ("one.5lab",  "github.com/aims-group/one.5lab")}
+templates = {1: ("bootstrap", "github.com/aims-group/hyde-bootstrap"),
+             2: ("one.5lab",  "github.com/aims-group/one.5lab")}
+#            3: ("tshirt",    "github.com/aims-group/tshirt"),
 template_prompt = "What template to use?"
 for k,t in templates.items():
   template_prompt += "\n  " + str(k) + ": " + t[0] + " (" + t[1] + ")"
@@ -178,7 +178,6 @@ else:
     subprocess.call(["git", "clone", "git://" + site.template[1], site.shortname])
     replace(site.shortname + "/content/index.html", "Page name", "Home")
     open(site.shortname + "/site.yaml", "w").write(site.yaml)
-    subprocess.call(["chmod", "755", site.shortname + "/content/media")
     hyde_gen(os.getcwd() + "/" + site.shortname)
 
   elif sys.argv[1] == "gen":
