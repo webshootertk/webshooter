@@ -35,6 +35,7 @@ class WebshooterSite:
     site_yaml["media_url"] = "media"
     site_yaml["context"]["data"]["site_title"] = site.longname
 #   site_yaml["context"]["data"]["author"]["name"] = getpass.getuser()
+    site_yaml["context"]["data"]["nav_hover"] = True
     site_yaml["context"]["data"]["home_url"] = "index.html"
     site_yaml["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
     site_yaml["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
