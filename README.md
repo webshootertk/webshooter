@@ -8,7 +8,7 @@ Webshooter is built to be compatible with the following site layouts, but should
 still work in templates that have matching variable names in `config.yaml`:
 
   * [Bootstrap][twitter/bootstrap] via [aims-group/hyde-bootstrap][]
-  * ~~[aims-group/one.5lab][]~~ (not yet)
+  * [aims-group/one.5lab][] (not yet)
   * ~~[aims-group/tshirt][]~~ (not yet)
 
 ## Usage
@@ -29,6 +29,34 @@ To regenerate the static content of an existing site, run
 
 where `path` is the full or relative path to a site which has been generated
 with `new`. For now, this is identical to running `hyde gen` inside `path`.
+
+### Updating your site with its template's changes
+If the template you're using gets updated after you've generated your site and
+you want to incorporate some or all of those changes into your site, you can use
+`git cherry-pick` to selectively grab the commits you want.
+
+Let's assume your
+website is its own git repository, with no more ties to the template repo. Let's
+also assume you're using hyde-bootstrap as your template (though the process is
+the same for other templates as well).
+
+First, set up your parent template as a remote and fetch its changes:
+
+    git remote add hyde-bootstrap git://github.com/aims-group/hyde-bootstrap
+    git fetch hyde-bootstrap
+
+Fetching doesn't overwrite anything or try to merge any code (pulling does).
+Once you've fetched changes, you can cherry-pick the ones you want. If you just
+want the changes performed by the most recent commit of hyde-bootstrap, you can
+do
+
+    git cherry-pick hyde-bootstrap/master
+
+Otherwise you can specify a specific commit hash or use one of several other
+ways of specifying commits. See `man git-cherry-pick` for more info.
+
+When you're done, just `git commit`, add to the prepopulated commit message if
+you like, and you're ready to push.
 
 [hyde/hyde]:                 https://github.com/hyde/hyde
 [twitter/bootstrap]:         https://github.com/twitter/bootstrap
