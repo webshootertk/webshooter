@@ -10,6 +10,8 @@ import tempfile
 import time
 import yaml
 
+import site
+
 if sys.version_info[0] == 2:
   if raw_input("""I was written in Python 3.x, but you're running me with Python 2.x! I was NOT
 tested with this version. Run anyway? [y/N] """).lower() != "y":
@@ -17,38 +19,50 @@ tested with this version. Run anyway? [y/N] """).lower() != "y":
 
 class WebshooterSite:
   def __init__(self):
-    self.longname  = None
     self.shortname = None
     self.template  = None
     self.color     = None
-    self.pages     = None
+    self.site_yaml = dict()
+    self.site_yaml["context"] = dict()
+    self.site_yaml["context"]["data"] = dict()
+    self.site_yaml["context"]["data"]["menu"] = list()
+    self.site_yaml["context"]["data"]["site_title"] = None
+
+  @property
+  def longname(self):
+    return self.site_yaml["context"]["data"]["site_title"]
+
+  @longname.setter
+  def longname(self, value):
+    self.site_yaml["context"]["data"]["site_title"] = value
+
+  @property
+  def pages(self):
+    return self.site_yaml["context"]["data"]["menu"]
+
+  @pages.setter
+  def pages(self, pages):
+    for p in pages:
+      filename = p.lower().replace(" ", "-") + ".html"
+      self.site_yaml["context"]["data"]["menu"].append({"title": p, "url": filename})
+      shutil.copy(site.shortname + "/content/blank.html", site.shortname + "/content/" + filename)
+      replace(site.shortname + "/content/" + filename, "Page name", p)
 
   @property
   def yaml(self):
-    site_yaml = dict()
-    site_yaml["context"] = dict()
-    site_yaml["context"]["data"] = dict()
-    site_yaml["context"]["data"]["author"] = dict()
-    site_yaml["context"]["data"]["menu"] = list()
-    site_yaml["plugins"] = list()
-    site_yaml["mode"] = "development"
-    site_yaml["media_url"] = "media"
-    site_yaml["context"]["data"]["site_title"] = site.longname
-#   site_yaml["context"]["data"]["author"]["name"] = getpass.getuser()
-    site_yaml["context"]["data"]["nav_hover"] = True
-    site_yaml["context"]["data"]["home_url"] = "index.html"
-    site_yaml["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
-    site_yaml["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
-    site_yaml["plugins"].append("hyde.ext.plugins.syntext.SyntextPlugin")
-    site_yaml["plugins"].append("hyde.ext.plugins.textlinks.TextlinksPlugin")
-    site_yaml["context"]["data"]["menu"].append({"title": "Home", "url": "index.html"})
-    for p in site.pages:
-      filename = p.lower().replace(" ", "-") + ".html"
-      site_yaml["context"]["data"]["menu"].append({"title": p, "url": filename})
-      shutil.copy(site.shortname + "/content/blank.html", site.shortname + "/content/" + filename)
-      replace(site.shortname + "/content/" + filename, "Page name", p)
-    return yaml.dump(site_yaml)
-
+    self.site_yaml["context"]["data"]["author"] = dict()
+    self.site_yaml["plugins"] = list()
+    self.site_yaml["mode"] = "development"
+    self.site_yaml["media_url"] = "media"
+#   self.site_yaml["context"]["data"]["author"]["name"] = getpass.getuser()
+    self.site_yaml["context"]["data"]["nav_hover"] = True
+    self.site_yaml["context"]["data"]["home_url"] = "index.html"
+    self.site_yaml["plugins"].append("hyde.ext.plugins.meta.MetaPlugin")
+    self.site_yaml["plugins"].append("hyde.ext.plugins.auto_extend.AutoExtendPlugin")
+    self.site_yaml["plugins"].append("hyde.ext.plugins.syntext.SyntextPlugin")
+    self.site_yaml["plugins"].append("hyde.ext.plugins.textlinks.TextlinksPlugin")
+    self.site_yaml["context"]["data"]["menu"].append({"title": "Home", "url": "index.html"})
+    return yaml.dump(self.site_yaml)
 
 longname_prompt = """Your website will have two names.
 The longname is what users will see. It can have spaces.
@@ -154,7 +168,7 @@ else:
         site.shortname = ""
         print("The shortname cannot have spaces, try again.")
       elif os.path.exists(site.shortname):
-        if input("A file/folder named " + shortname + " already exists here. Delete the whole thing [y/N]? ").lower() == 'y':
+        if input("A file/folder named " + site.shortname + " already exists here. Delete the whole thing [y/N]? ").lower() == 'y':
           shutil.rmtree(site.shortname)
         else:
           site.shortname = ""
@@ -165,6 +179,7 @@ else:
         site.template = templates[int(input("template> ").strip())]
       except (KeyError, ValueError):
         pass
+    subprocess.call(["git", "clone", "git://" + site.template[1], site.shortname])
 # Color (if tshirt)
     if site.template[0] is "tshirt":
       print(color_prompt)
@@ -176,7 +191,6 @@ else:
       site.pages = [ p.strip() for p in input("pages> Home, ").split(",") ]
 
 # Set up the site
-    subprocess.call(["git", "clone", "git://" + site.template[1], site.shortname])
     replace(site.shortname + "/content/index.html", "Page name", "Home")
     open(site.shortname + "/site.yaml", "w").write(site.yaml)
     hyde_gen(os.getcwd() + "/" + site.shortname)
