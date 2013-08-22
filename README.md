@@ -8,8 +8,8 @@ Webshooter is built to be compatible with the following site layouts, but should
 still work in templates that have matching variable names in `config.yaml`:
 
   * [Bootstrap][twitter/bootstrap] via [aims-group/hyde-bootstrap][]
-  * [aims-group/one.5lab][] (not yet)
-  * ~~[aims-group/tshirt][]~~ (not yet)
+  * [aims-group/one.5lab][aims-group/one.5lab]
+  * [aims-group/tshirt][aims-group/tshirt]
 
 ## Usage
 
