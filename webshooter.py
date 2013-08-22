@@ -76,26 +76,26 @@ description_prompt = """The description is displayed in your site's header, belo
 the description now."""
 
 templates = {1: ("bootstrap", "github.com/aims-group/hyde-bootstrap"),
-             2: ("one.5lab",  "github.com/aims-group/one.5lab")}
-#            3: ("tshirt",    "github.com/aims-group/tshirt"),
+             2: ("one.5lab",  "github.com/aims-group/one.5lab"),
+             3: ("tshirt",    "github.com/aims-group/tshirt")}
 template_prompt = "What template to use?"
 for k,t in templates.items():
   template_prompt += "\n  " + str(k) + ": " + t[0] + " (" + t[1] + ")"
 
 color_prompt = """You can choose a dominate color to use for this template. Enter one in hex color
 format (#RRGGBB)."""
+#regex main css and seplace color
 
 pages_prompt = """What pages will exist?
   You can change these later. Do not include external links you want in nav.
   Separate pages with commas. Enter pages in longname format; shortnames will be
   generated automatically."""
 
-logo_prompt = """Specify a path to a logo which will be copied to your site's directory. If you
-don't have one yet, just press Return."""
-
 def hyde_gen(path):
   subprocess.Popen(["hyde", "gen"], cwd=path, stdout=subprocess.DEVNULL)
-  print("Complete! Now open\n\n  " + os.path.abspath(path) + "/deploy/index.html\n\nin a web browser.")
+  replace(path + '/.git/config', 'origin', 'upstream')
+  print("Complete! Now open\n\n  " + os.path.abspath(path) + "/deploy/index.html\n\nin a web browser.\n")
+  print("To keep your site style up to date you can run\n\n  git pull upstream master\n") 
 
 # Replaces all occurrances of pattern with subst in file_path
 # from http://stackoverflow.com/a/39110/392225
