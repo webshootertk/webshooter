@@ -11,6 +11,20 @@ still work in templates that have matching variable names in `config.yaml`:
   * [aims-group/one.5lab][aims-group/one.5lab]
   * [aims-group/tshirt][aims-group/tshirt]
 
+## Requirements
+
+### Packages
+* Python
+* pip
+* distribute==0.6.19
+* fs==0.4.0
+* hyde==0.8.4
+* wsgiref==0.1.2
+
+### Set Up Working Environment
+
+* [Documentation][documentation]
+
 ## Usage
 
 ### Generating a new site
@@ -58,8 +72,37 @@ ways of specifying commits. See `man git-cherry-pick` for more info.
 When you're done, just `git commit`, add to the prepopulated commit message if
 you like, and you're ready to push.
 
+# HTML Cleaner
+
+## Requirements
+
+### Packages
+
+* html5lib
+
+## Usage
+
+    ./htmlcleaner.py -help
+    usage: htmlcleaner.py [-h] [--preserve PRESERVE] infile outfile
+
+    Extracts text from body of an HTML document
+
+    positional arguments:
+      infile                Path to HTML file
+      outfile               Path to desired output file
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --preserve PRESERVE, -p PRESERVE
+                            Repeatable parameter that adds a tag name to preserve
+                            (e.g. htmlcleaner.py -p a -p img)
+
+    ./htmlcleaner.py inputFile outputFile -p ignore-tag
+ 
+
 [hyde/hyde]:                 https://github.com/hyde/hyde
 [twitter/bootstrap]:         https://github.com/twitter/bootstrap
 [aims-group/one.5lab]:       https://github.com/aims-group/one.5lab
 [aims-group/hyde-bootstrap]: https://github.com/aims-group/hyde-bootstrap
 [aims-group/tshirt]:         https://github.com/aims-group/tshirt
+[documentation]:             https://github.com/aims-group/esgf-site/wiki
