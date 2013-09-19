@@ -5,6 +5,7 @@ import argparse
 import os
 import os.path
 import requests
+from urlparse import urlparse
 from sys import argv, exit
 from htmlcleaner import filtered_text
 from bs4 import BeautifulSoup   
@@ -32,10 +33,14 @@ for line in infile:
     
 soup = BeautifulSoup(clean_string)
 cleaner_string = ''
+
+fullURL = "http://" + urlparse(args.url).hostname
+
 for a in soup.find_all('a', href=True):
         
-    if a['href'] != '#':
-        cleaner_string += "%s\n" % a['href']
+    if a['href'][0] != '#' and a['href'][:4] != "http" and a['href'].find("?") == -1 :
+        nextURL = fullURL + a['href']
+        cleaner_string += "%s\n" % nextURL
         outfile = open("urlList", "w")
         outfile.write(cleaner_string)
         outfile.close()

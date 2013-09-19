@@ -19,8 +19,12 @@ if not os.path.exists(args.urlFile):
     stderr.write("Input file %s not found." % args.urlFile)
     exit()
 
+files = "temp_files"
+if not os.path.exists(files):
+    os.makedirs(files)
+
 file_to_read = open(args.urlFile)
-infile_contents = file_to_read.read()
+infile_contents = file_to_read.readlines()
 file_to_read.close()
 
 for line in infile_contents:
@@ -31,10 +35,10 @@ for line in infile_contents:
         break
     
     titleList = line.split("/")
-    title = titleList[len(titleList -1)]
-    
-    file_to_write = open(title, "w")
-    file_to_write.write(resp.text)
+    title = titleList[len(titleList) - 1] + ".html"
+    text = resp.text 
+    file_to_write = open(os.path.join(files, title), "w")
+    file_to_write.write(text.encode("ascii", "xmlcharrefreplace"))
     file_to_write.close()
     
-    time.sleep(3)
+    #time.sleep(3)
