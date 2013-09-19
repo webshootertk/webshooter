@@ -1,2 +1,3 @@
 .*.swp
 .hyde_deps
+*.pyc
