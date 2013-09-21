@@ -1,3 +1,6 @@
 .*.swp
 .hyde_deps
 *.pyc
+urlList
+temp_files
+temp_files/*

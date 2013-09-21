@@ -8,7 +8,8 @@ import requests
 import time
 from sys import argv, exit
 from htmlcleaner import filtered_text
-from bs4 import BeautifulSoup   
+from bs4 import BeautifulSoup
+from random import randint
 
 parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
 parser.add_argument("urlFile", help="file containing a list of URLs")
@@ -28,6 +29,9 @@ infile_contents = file_to_read.readlines()
 file_to_read.close()
 
 for line in infile_contents:
+    
+    time.sleep(randint(2,9))
+    
     try:
         line = line[:-1]
         resp = requests.get(line)
@@ -46,4 +50,3 @@ for line in infile_contents:
         print "exception file: %s" % line
         print "exception status: %s" % resp.status_code
 
-    time.sleep(1)
