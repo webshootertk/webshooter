@@ -31,7 +31,7 @@ def get_filesFromList(urlFile):
                 continue
     
             titleList = line.split("/")
-            title = titleList[len(titleList) - 1] + ".html"
+            title = titleList[len(titleList) - 1]
             text = resp.text 
             file_to_write = open(os.path.join(files, title), "w")
             file_to_write.write(text.encode("ascii", "xmlcharrefreplace"))
