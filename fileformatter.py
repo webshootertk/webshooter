@@ -6,7 +6,7 @@ import os.path
 from htmlcleaner import filtered_text
 from bs4 import BeautifulSoup   
 
-def get_cleanFiles(path, backup, topfile, bottomfile):
+def get_cleanFiles(path, save, topfile, bottomfile):
     for root, _, files in os.walk(path):
         for f in files:
             extension = os.path.splitext(f)[1]
@@ -34,7 +34,7 @@ def get_cleanFiles(path, backup, topfile, bottomfile):
                 else:
                     fileName = f + ".md"
 
-                outfile = open(fileName, "w")
+                outfile = open(os.path.join(path, "..", save, fileName), "w")
                 outfile.write(cleaner_string.encode("ascii", "xmlcharrefreplace"))
                 outfile.close()
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
     parser.add_argument("path", help="folder containing a raw files")
-    parser.add_argument("backup", help="folder to put clean files")
+    parser.add_argument("save", help="folder to put clean files")
     parser.add_argument("topfile", help="number of lines to skip at the start of the file (header, nav, menu ...")
     parser.add_argument("bottomfile", help="number of lines to skip at the bottom of the file (footer, nav, links ...")
 
@@ -56,10 +56,10 @@ if __name__ == "__main__":
         stderr.write("folder %s not found." % args.path)
         exit()
 
-    if not os.path.exists(args.backup):
-        os.makedirs(args.backup)
+    if not os.path.exists(args.save):
+        os.makedirs(args.save)
 
-    if get_cleanFiles(args.path, args.backup, int(args.topfile), int(args.bottomfile)):
+    if get_cleanFiles(args.path, args.save, int(args.topfile), int(args.bottomfile)):
         print "Error"
     else:
         print "Done"
