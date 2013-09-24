@@ -22,7 +22,7 @@ def get_cleanFiles(path, backup, topfile, bottomfile):
     
                 clean_string = "\n".join(cleaned)
                 cleaned_soup = BeautifulSoup(clean_string, "html5lib")
-                clean_string = filtered_text(cleaned_soup.body, ["a"])
+                clean_string = filtered_text(cleaned_soup.body, ["a", "img"])
                 cleaner_string = ''
                 for line in clean_string.split("\n"):
                     line = line.strip()
@@ -33,11 +33,10 @@ def get_cleanFiles(path, backup, topfile, bottomfile):
                     fileName = f[0:len(f) -5] + ".md"
                 else:
                     fileName = f + ".md"
+
                 outfile = open(fileName, "w")
                 outfile.write(cleaner_string.encode("ascii", "xmlcharrefreplace"))
                 outfile.close()
-    
-                shutil.move(os.path.join(root, f), backup)
 
 if __name__ == "__main__":
     import shutil
@@ -46,10 +45,12 @@ if __name__ == "__main__":
     from sys import argv, exit
 
     parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
-    parser.add_argument("path", help="folder containing a collection of html files")
-    parser.add_argument("backup", help="folder to contain backups")
+    parser.add_argument("path", help="folder containing a raw files")
+    parser.add_argument("backup", help="folder to put clean files")
     parser.add_argument("topfile", help="number of lines to skip at the start of the file (header, nav, menu ...")
     parser.add_argument("bottomfile", help="number of lines to skip at the bottom of the file (footer, nav, links ...")
+
+    args = parser.parse_args()
 
     if not os.path.exists(args.path):
         stderr.write("folder %s not found." % args.path)

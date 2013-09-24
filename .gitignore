@@ -2,5 +2,5 @@
 .hyde_deps
 *.pyc
 urlList
-temp_files
-temp_files/*
+raw_files
+clean_files

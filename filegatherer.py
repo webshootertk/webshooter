@@ -6,7 +6,7 @@ import time
 from bs4 import BeautifulSoup
 from random import randint
 def get_filesFromList(urlFile):
-    files = "temp_files"
+    files = "raw_files"
     resp = ""
 
     if not os.path.exists(files):
