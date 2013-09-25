@@ -2,24 +2,25 @@ def worldEngine(url, resp):
     urlFile = "urlList"
     raw_files = "raw_files"
     converted_files = "converted_files"
+    image_files = "image_files"
 
     from urlgatherer import get_urlList
     if get_urlList(args.url, urlFile, resp):
-        print "Error: urlgatherer did not finish"
+        print "!! Error: urlgatherer did not finish !!"
     else:
-        print "urlgatherer finished"
+        print "** urlgatherer finished **"
 
     from filegatherer import get_filesFromList 
     if get_filesFromList(urlFile):
-        print "Error: filegatherer did not finish"
+        print "!! Error: filegatherer did not finish !!"
     else:
-        print "filegatherer finished"
+        print "** filegatherer finished **"
 
     from fileconverter import get_convertedFiles
     if get_convertedFiles(raw_files, converted_files):
-        print "Error fileconverter did not finish"
+        print "!! Error fileconverter did not finish !!"
     else:
-        print "fileconverter finished"
+        print "** fileconverter finished **"
 
 if __name__ == "__main__":
     import shutil
@@ -35,10 +36,10 @@ if __name__ == "__main__":
 
     resp = requests.get(args.url)
     if resp.status_code >= 400:
-        print "Sorry, error occurred."
+        print "!! Sorry, error occurred. !!"
         exit()
 
     if worldEngine(args.url, resp):
-        print "Error worldengine did not finish"
+        print "!! Error worldengine did not finish  !!"
     else:
-        print "site is habitable"
+        print "** site is habitable  **"
