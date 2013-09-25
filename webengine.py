@@ -37,7 +37,7 @@ def worldEngine(url, resp):
         print "** imagegatherer finished **"
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Get all links on a page and save to a file")
+    parser = argparse.ArgumentParser(description="get all content (html / images) from a wiki (site) and convert to markdown")
     parser.add_argument("url", help="URL which to pull all the links out of")
 
     args = parser.parse_args()
