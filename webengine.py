@@ -1,11 +1,13 @@
 def worldEngine(url, resp):
     urlFile = "urlList"
-    
-    from urlgather import get_urlList
+    raw_files = "raw_files"
+    converted_files = "converted_files"
+
+    from urlgatherer import get_urlList
     if get_urlList(args.url, urlFile, resp):
-        print "Error: urlgather did not finish"
+        print "Error: urlgatherer did not finish"
     else:
-        print "urlgather finished"
+        print "urlgatherer finished"
 
     from filegatherer import get_filesFromList 
     if get_filesFromList(urlFile):
@@ -23,6 +25,7 @@ if __name__ == "__main__":
     import shutil
     import argparse
     import os
+    import requests
     from sys import argv, exit
 
     parser = argparse.ArgumentParser(description="Get all links on a page and save to a file")

@@ -26,11 +26,13 @@ def get_urlList(url, urlFile, resp):
                 nextURL = fullURL + a['href']
             else:
                 nextURL = fullURL + "/" + a['href']
-            
-            cleaner_string += "%s\n" % nextURL
-            outfile = open(urlFile, "w")
-            outfile.write(cleaner_string)
-            outfile.close()
+           
+            extension = os.path.splitext(nextURL)[1]
+            if extension in (".html", ""):
+                cleaner_string += "%s\n" % nextURL
+                outfile = open(urlFile, "w")
+                outfile.write(cleaner_string.encode("ascii", "xmlcharrefreplace"))
+                outfile.close()
 
     print ("Created list of URLs in %s" % urlFile)
     return

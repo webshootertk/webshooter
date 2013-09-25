@@ -8,9 +8,13 @@ from bs4 import BeautifulSoup
 import html2text
 
 def get_convertedFiles(path, save):
+
+    if not os.path.exists(save):
+        os.makedirs(save)
+
     for f in os.listdir(path):
         extension = os.path.splitext(f)[1]
-        if extension not in (".md", ".py", ".pyc"):
+        if extension not in (".md", ".py", ".pyc", ".pdf"):
             print "converting file %s" % f
             infile = open(os.path.join(path, f)).read()
             h2t = html2text.HTML2Text()
@@ -38,9 +42,6 @@ if __name__ == "__main__":
     if not os.path.exists(args.path):
         stderr.write("folder %s not found." % args.path)
         exit()
-
-    if not os.path.exists(args.save):
-        os.makedirs(args.save)
 
     if get_convertedFiles(args.path, args.save):
         print "Error"

@@ -5,6 +5,7 @@ import requests
 import time
 from bs4 import BeautifulSoup
 from random import randint
+import sys
 def get_filesFromList(urlFile):
     files = "raw_files"
     resp = ""
@@ -16,8 +17,7 @@ def get_filesFromList(urlFile):
     infile_contents = file_to_read.readlines()
     file_to_read.close()
     count = 0
-
-    print("This could take as long as %s x 10 seconds" % len(infile_contents))
+    total = len(infile_contents)
 
     for line in infile_contents:
     
@@ -34,13 +34,14 @@ def get_filesFromList(urlFile):
             titleList = line.split("/")
             title = titleList[len(titleList) - 1]
             text = resp.text
-            print "Saving file %s (%d of %d)" % (title, count, len(file_contents))
+            print "Saving file %s (%d of %d)" % (title, count, total)
             file_to_write = open(os.path.join(files, title), "w")
             file_to_write.write(text.encode("ascii", "xmlcharrefreplace"))
             file_to_write.close()
         except: 
             print "exception file: %s" % line
-            print "exception status: %s" % resp.status_code
+            print "Status Code: %s" % resp.status_code
+            print sys.exc_info()[0]
 
 
 if __name__ == "__main__":
