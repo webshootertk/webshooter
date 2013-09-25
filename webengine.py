@@ -1,4 +1,12 @@
+import shutil
+import argparse
+import os
+import requests
+from urlparse import urlparse
+from sys import argv, exit
+
 def worldEngine(url, resp):
+    baseURL =  "http://" + urlparse(url).hostname 
     urlFile = "urlList"
     raw_files = "raw_files"
     converted_files = "converted_files"
@@ -22,13 +30,13 @@ def worldEngine(url, resp):
     else:
         print "** fileconverter finished **"
 
-if __name__ == "__main__":
-    import shutil
-    import argparse
-    import os
-    import requests
-    from sys import argv, exit
+    from imagegatherer import get_imageFiles
+    if get_imageFiles(raw_files, image_files, baseURL):
+        print "!! Error imagegatherer did not finish !!"
+    else:
+        print "** imagegatherer finished **"
 
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Get all links on a page and save to a file")
     parser.add_argument("url", help="URL which to pull all the links out of")
 

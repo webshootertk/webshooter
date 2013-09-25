@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 from random import randint
 import sys
 def get_filesFromList(urlFile):
+    print "this functino is slow on purpose"
+
     files = "raw_files"
     resp = ""
 

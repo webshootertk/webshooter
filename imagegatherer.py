@@ -12,6 +12,10 @@ from bs4 import BeautifulSoup
 from sys import argv, exit
 
 def get_imageFiles(path, save, domain):
+    
+    if not os.path.exists(save):
+        os.makedirs(save)
+
     for f in os.listdir(path):
         infile = open(os.path.join(path, f)).read()
         soup = BeautifulSoup(infile)
@@ -41,9 +45,6 @@ if __name__ == "__main__":
     if resp.status_code >= 400:
         stderr.write("Sorry, domain unavailable")
         exit()
-
-    if not os.path.exists(args.save):
-        os.makedirs(args.save)
 
     if get_imageFiles(args.path, args.save, args.domain):
         print "Error"
