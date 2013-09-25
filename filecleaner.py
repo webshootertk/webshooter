@@ -7,10 +7,12 @@ from htmlcleaner import filtered_text
 from bs4 import BeautifulSoup   
 
 def get_cleanFiles(path, save, topfile, bottomfile):
+
     for root, _, files in os.walk(path):
         for f in files:
             extension = os.path.splitext(f)[1]
             if extension not in (".md", ".py", ".pyc"):
+                print "cleaning file %s" % f
                 infile = open(os.path.join(root, f)).readlines()
                 infile = infile[topfile: len(infile) - bottomfile]
                 cleaned = []

@@ -53,7 +53,6 @@ if __name__ == "__main__":
         print "Sorry, error occurred."
         exit()
 
-
     if get_urlList(args.url, args.urlFile, resp):
         print "Error"
     else:

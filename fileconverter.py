@@ -11,6 +11,7 @@ def get_convertedFiles(path, save):
     for f in os.listdir(path):
         extension = os.path.splitext(f)[1]
         if extension not in (".md", ".py", ".pyc"):
+            print "converting file %s" % f
             infile = open(os.path.join(path, f)).read()
             h2t = html2text.HTML2Text()
             content = h2t.handle(infile)

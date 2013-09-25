@@ -15,13 +15,14 @@ def get_filesFromList(urlFile):
     file_to_read = open(urlFile)
     infile_contents = file_to_read.readlines()
     file_to_read.close()
+    count = 0
 
     print("This could take as long as %s x 10 seconds" % len(infile_contents))
 
     for line in infile_contents:
     
         time.sleep(randint(2,9))
-    
+        count += 1
         try:
             line = line[:-1]
             resp = requests.get(line)
@@ -32,7 +33,8 @@ def get_filesFromList(urlFile):
     
             titleList = line.split("/")
             title = titleList[len(titleList) - 1]
-            text = resp.text 
+            text = resp.text
+            print "Saving file %s (%d of %d)" % (title, count, len(file_contents))
             file_to_write = open(os.path.join(files, title), "w")
             file_to_write.write(text.encode("ascii", "xmlcharrefreplace"))
             file_to_write.close()
