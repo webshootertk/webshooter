@@ -3,11 +3,12 @@
 import os.path
 import requests
 import time
+import urlparse
 from bs4 import BeautifulSoup
 from random import randint
 import sys
 def get_filesFromList(urlFile):
-    print "this functino is slow on purpose"
+    print "this function is slow on purpose"
 
     files = "raw_files"
     resp = ""
@@ -33,8 +34,10 @@ def get_filesFromList(urlFile):
                 print "Status Code: %s" % resp.status_code
                 continue
     
-            titleList = line.split("/")
-            title = titleList[len(titleList) - 1]
+            title = urlparse.urlparse(line).path
+            title = title.replace("/", ".")
+            # "wiki/" = 5 : \r = length - 1 
+            title = title[5 : len(title) - 1]
             text = resp.text
             print "Saving file %s (%d of %d)" % (title, count, total)
             file_to_write = open(os.path.join(files, title), "w")
