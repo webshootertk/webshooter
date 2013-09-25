@@ -35,9 +35,9 @@ def get_filesFromList(urlFile):
                 continue
     
             title = urlparse.urlparse(line).path
-            title = title.replace("/", ".")
-            # "wiki/" = 5 : \r = length - 1 
-            title = title[5 : len(title) - 1]
+            # "/wiki/" = 6 : \r = length - 1 
+            title = title[6 : len(title) - 1]
+            title = title.replace("/", "|")
             text = resp.text
             print "Saving file %s (%d of %d)" % (title, count, total)
             file_to_write = open(os.path.join(files, title), "w")
