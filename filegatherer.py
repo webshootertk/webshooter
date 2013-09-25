@@ -35,8 +35,8 @@ def get_filesFromList(urlFile):
                 continue
     
             title = urlparse.urlparse(line).path
-            # "/wiki/" = 6 : \r = length - 1 
-            title = title[6 : len(title) - 1]
+            # "/wiki/" = 6  
+            title = title[6 : len(title)]
             title = title.replace("/", "|")
             text = resp.text
             print "Saving file %s (%d of %d)" % (title, count, total)
