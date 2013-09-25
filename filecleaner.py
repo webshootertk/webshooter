@@ -7,6 +7,9 @@ from htmlcleaner import filtered_text
 from bs4 import BeautifulSoup   
 
 def get_cleanFiles(path, save, topfile, bottomfile):
+    
+    if not os.path.exists(args.save):
+        os.makedirs(args.save)
 
     for root, _, files in os.walk(path):
         for f in files:
@@ -57,9 +60,6 @@ if __name__ == "__main__":
     if not os.path.exists(args.path):
         stderr.write("folder %s not found." % args.path)
         exit()
-
-    if not os.path.exists(args.save):
-        os.makedirs(args.save)
 
     if get_cleanFiles(args.path, args.save, int(args.topfile), int(args.bottomfile)):
         print "Error"
