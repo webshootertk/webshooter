@@ -31,8 +31,8 @@ def get_imageFiles(path, save, domain):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
-    parser.add_argument("path", help="folder containing a raw files")
-    parser.add_argument("save", help="folder to put clean files")
+    parser.add_argument("path", help="folder containing html (raw) files")
+    parser.add_argument("save", help="folder to put image files")
     parser.add_argument("domain", help="site domain")
 
     args = parser.parse_args()
