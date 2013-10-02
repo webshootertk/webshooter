@@ -28,8 +28,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="removes X lines from top and Y lines from bottom of a file")
     parser.add_argument("path", help="folder containing files")
-    parser.add_argument("topfile", help="number of lines to remove from the top of the file (header, nav, menu ...")
-    parser.add_argument("bottomfile", help="number of lines to remove from the bottom of the file (footer, nav, links ...")
+    parser.add_argument("topfile", help="number of lines to remove from the top of the file (header, nav, menu)")
+    parser.add_argument("bottomfile", help="number of lines to remove from the bottom of the file (footer, nav, links)")
 
     args = parser.parse_args()
 
