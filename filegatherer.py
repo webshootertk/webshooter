@@ -7,10 +7,10 @@ import urlparse
 from bs4 import BeautifulSoup
 from random import randint
 import sys
-def get_filesFromList(urlFile):
+def get_filesFromList(urlFile, save):
     print "this function is slow on purpose"
 
-    files = "raw_files"
+    files = save
     resp = ""
 
     if not os.path.exists(files):
@@ -43,6 +43,7 @@ def get_filesFromList(urlFile):
             file_to_write = open(os.path.join(files, title), "w")
             file_to_write.write(text.encode("ascii", "xmlcharrefreplace"))
             file_to_write.close()
+        
         except: 
             print "exception file: %s" % line
             print "Status Code: %s" % resp.status_code
@@ -57,6 +58,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
     parser.add_argument("urlFile", help="file containing a list of URLs")
+    parser.add_argument("save", help="folder name to save raw htlm files in")
 
     args = parser.parse_args()
 
@@ -64,7 +66,7 @@ if __name__ == "__main__":
         stderr.write("Input file %s not found." % args.urlFile)
         exit()
 
-    if get_filesFromList(args.urlFile):
+    if get_filesFromList(args.urlFile, args.save):
         print "Error"
     else:
         print "Done"
