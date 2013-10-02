@@ -3,9 +3,10 @@
 import shutil
 import os
 import os.path
+import urlparse
+import html2text
 from htmlcleaner import filtered_text
 from bs4 import BeautifulSoup   
-import html2text
 
 def get_correctedFiles(path, save, url, img):
 
@@ -18,25 +19,18 @@ def get_correctedFiles(path, save, url, img):
         
         soup = BeautifulSoup(infile, "html5lib")
         for tag in soup.find_all(lambda t: 'href' in t.attrs or 'src' in t.attrs):
-            if 'href' in t.attrs:
+            if 'href' in tag.attrs:
                 url_parts = urlparse.urlsplit(tag.attrs["href"])
-                path = url_parts.path
-                if path[0:6] == "/wiki/":
-                    path = path[6:] 
-                    path = path.replace("/", "|")   
-                    path = "/wiki/" + path + ".md"
-                    tag.attrs["href"] = urlparse.urljoin(url, path)
+                hrefpath = url_parts.path
+                tag.attrs["href"] = urlparse.urljoin(url, hrefpath)
             else:
                 url_parts = urlparse.urlsplit(tag.attrs["src"])
-                path = url_parts.path
-                if path[0:6] == "/wiki/":
-                    title = path.split("/")
-                    title = title[len(title) - 1]
-                    tag.attrs["src"] = urlparse.urljoin(img, title)
+                srcpath = url_parts.path
+                tag.attrs["src"] = urlparse.urljoin(img, srcpath)
 
         
         outfile = open(os.path.join(save, f), "w")
-        outfile.write(content.encode("ascii", "xmlcharrefreplace"))
+        outfile.write(soup.encode("ascii", "xmlcharrefreplace"))
         outfile.close()
 
 if __name__ == "__main__":
