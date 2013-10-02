@@ -2,7 +2,11 @@
 .hyde_deps
 *.pyc
 urlList
+temp_files/
 raw_files/
-clean_files/
+html_files/
 converted_files/
+clean_files/
+md_files/
 image_files/
+

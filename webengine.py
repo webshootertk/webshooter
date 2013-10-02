@@ -28,7 +28,7 @@ def worldEngine(url, href, src, option, resp):
     
     else:
         from sitegatherer import get_siteFiles
-        if get_siteFiles(url, raw_files, resp):
+        if get_siteFiles(url, raw_files):
             print "!! Error: sitegaterer did not finish !!"
         else:
             print "** sitegaterer finished **"
