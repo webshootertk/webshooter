@@ -13,7 +13,7 @@ def worldEngine(url, href, src, option, resp):
     md_files = "md_files"
     image_files = "image_files"
 
-    if option == "site":
+    if option != "site":
         from urlgatherer import get_urlList
         if get_urlList(url, urlFile, resp):
             print "!! Error: urlgatherer did not finish !!"
@@ -40,7 +40,7 @@ def worldEngine(url, href, src, option, resp):
         print "** filecorrector finished **"
 
     from fileconverter import get_convertedFiles
-    if get_convertedFiles(raw_files, converted_files):
+    if get_convertedFiles(html_files, md_files):
         print "!! Error fileconverter did not finish !!"
     else:
         print "** fileconverter finished **"
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     parser.add_argument("url", help="URL to site or wiki")
     parser.add_argument("href", help="URL of the new site")
     parser.add_argument("src", help="Path to the image directory")
-    parser.add_argument("option", default="site", help="add -w if a wiki Title Index page (the page that list all the pages in the wiki) if not a wiki leave blank")
+    parser.add_argument("type", help="\"site\" for full website or \"wiki\" for wiki Title Index page")
 
     args = parser.parse_args()
 
@@ -65,12 +65,11 @@ if __name__ == "__main__":
         print "!! Sorry, site / wiki is not reachable, error occurred. !!"
         exit()
 
-    if worldEngine(args.url, args.href, agrs.src, args.option, resp):
+    if worldEngine(args.url, args.href, args.src, args.type, resp):
         print "!! Error worldengine did not finish  !!"
     else:
         print "** site is habitable  **"
         print " "
-        print "new directory -> what is inside"
         print "raw_files   -> what came from the server (old html)"
         print "html_files  -> files from server with new href and src links (new html)"
         print "image_files -> all the image files from the old site (images)"

@@ -8,7 +8,9 @@ from bs4 import BeautifulSoup
 from random import randint
 import sys
 def get_filesFromList(urlFile, save):
+    print "--------------------------------"
     print "this function is slow on purpose"
+    print "--------------------------------"
 
     files = save
     resp = ""
@@ -56,9 +58,9 @@ if __name__ == "__main__":
     import os
     from sys import argv, exit
 
-    parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
-    parser.add_argument("urlFile", help="file containing a list of URLs")
-    parser.add_argument("save", help="folder name to save raw htlm files in")
+    parser = argparse.ArgumentParser(description="gets all files from a list of urls")
+    parser.add_argument("urlFile", help="file containing a list of urls")
+    parser.add_argument("save", help="folder name to save htlm (raw) files in")
 
     args = parser.parse_args()
 

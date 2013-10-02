@@ -11,8 +11,9 @@ import urlparse
 from bs4 import BeautifulSoup
 from random import randint
 def get_siteFiles(url, save):
+    print "--------------------------------"
     print "this function is slow on purpose"
-    print " "
+    print "--------------------------------"
 
     if not os.path.exists(save):
         os.makedirs(save)
@@ -34,9 +35,9 @@ if __name__ == "__main__":
     import os
     from sys import argv, exit
 
-    parser = argparse.ArgumentParser(description="Get all the pages of a website (wget -r)")
-    parser.add_argument("url", help="url of site to get")
-    parser.add_argument("save", help="folder name to save raw htlm files in")
+    parser = argparse.ArgumentParser(description="wget -r a website (only html pages)")
+    parser.add_argument("url", help="url of site")
+    parser.add_argument("save", help="folder name to save html (raw) files in")
 
     args = parser.parse_args()
 

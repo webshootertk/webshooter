@@ -69,10 +69,10 @@ if __name__ == "__main__":
 	import argparse
 	import os.path
 	from sys import stderr, exit
-	parser = argparse.ArgumentParser(description='Extracts text from body of an HTML document')
-	parser.add_argument("infile", help="Path to HTML file")
-	parser.add_argument("outfile", help="Path to desired output file")
-	parser.add_argument("--preserve", "-p", action="append", help="Repeatable parameter that adds a tag name to preserve (e.g. htmlcleaner.py -p a -p img)")
+	parser = argparse.ArgumentParser(description='extracts text from body of an HTML document')
+	parser.add_argument("infile", help="path to html (raw) files")
+	parser.add_argument("outfile", help="path to desired output file")
+	parser.add_argument("--preserve", "-p", action="append", help="repeatable parameter that adds a tag name to preserve (e.g. htmlcleaner.py -p a -p img)")
 
 	args = parser.parse_args()
 	

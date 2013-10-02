@@ -22,7 +22,8 @@ def get_correctedFiles(path, save, url, img):
             if 'href' in tag.attrs:
                 url_parts = urlparse.urlsplit(tag.attrs["href"])
                 hrefpath = url_parts.path
-                tag.attrs["href"] = urlparse.urljoin(url, hrefpath)
+                if hrefpath[0:7] != "http://":
+                    tag.attrs["href"] = urlparse.urljoin(url, hrefpath)
             else:
                 url_parts = urlparse.urlsplit(tag.attrs["src"])
                 srcpath = url_parts.path
@@ -39,11 +40,11 @@ if __name__ == "__main__":
     import os
     from sys import argv, exit
 
-    parser = argparse.ArgumentParser(description="Converts all the href and scr to point to new locations")
+    parser = argparse.ArgumentParser(description="converts all the href and scr to point to full path / different location")
     parser.add_argument("path", help="folder containing html (raw) files")
-    parser.add_argument("save", help="folder to put clean files")
-    parser.add_argument("url", help="What is th new url? (url to replace path url's with)")
-    parser.add_argument("img", help="Where will images be living? (src for img tags)")
+    parser.add_argument("save", help="folder to put converted html files")
+    parser.add_argument("url", help="What is the full path / new url for page links")
+    parser.add_argument("img", help="What is the full path / new url for images")
 
     args = parser.parse_args()
 

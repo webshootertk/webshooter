@@ -30,7 +30,7 @@ def get_imageFiles(path, save, domain):
             urllib.urlretrieve(imgURL, os.path.join(save, os.path.basename(imgURL)))
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
+    parser = argparse.ArgumentParser(description="saves all images from a collection of html (raw) pages")
     parser.add_argument("path", help="folder containing html (raw) files")
     parser.add_argument("save", help="folder to put image files")
     parser.add_argument("domain", help="site domain")

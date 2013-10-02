@@ -49,11 +49,11 @@ if __name__ == "__main__":
     import os
     from sys import argv, exit
 
-    parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
-    parser.add_argument("path", help="folder containing a raw files")
+    parser = argparse.ArgumentParser(description="strips out all html, and removes X, Y lines from the top and bottom of the file.")
+    parser.add_argument("path", help="folder containing raw files")
     parser.add_argument("save", help="folder to put clean files")
-    parser.add_argument("topfile", help="number of lines to skip at the start of the file (header, nav, menu ...")
-    parser.add_argument("bottomfile", help="number of lines to skip at the bottom of the file (footer, nav, links ...")
+    parser.add_argument("topfile", help="number of lines to remove from top of file")
+    parser.add_argument("bottomfile", help="number of lines to remove from teh bottom of file")
 
     args = parser.parse_args()
 

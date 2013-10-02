@@ -33,9 +33,9 @@ if __name__ == "__main__":
     import os
     from sys import argv, exit
 
-    parser = argparse.ArgumentParser(description="Get all the pages from a file of links")
-    parser.add_argument("path", help="folder containing a raw files")
-    parser.add_argument("save", help="folder to put clean files")
+    parser = argparse.ArgumentParser(description="converts html (raw) files to markdown")
+    parser.add_argument("path", help="folder containing a html (raw) files")
+    parser.add_argument("save", help="folder to put markdown files")
 
     args = parser.parse_args()
 
