@@ -72,7 +72,7 @@ if __name__ == "__main__":
         print " "
         print "raw_files   -> what came from the server (old html)"
         print "html_files  -> files from server with new href and src links (new html)"
-        print "image_files -> all the image files from the old site (images)"
         print "md_files    -> the \"new html\" files converted to markdown (markdown)"
+        print "image_files -> all the image files from the old site (images)"
         print " "
         print "You may want to run md_files through filetrimmer.py to remove unwated headers and footers"
