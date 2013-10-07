@@ -23,10 +23,17 @@ def get_correctedFiles(path, save, url, img):
                 url_parts = urlparse.urlsplit(tag.attrs["href"])
                 hrefpath = url_parts.path
                 if hrefpath[0:7] != "http://":
+                    # for wiki conversion (moin moin wikis)
+                    hrefpath = hrefpath.replace("/", "|")
+                    if hrefpath[0:6] == "|wiki|":
+                        hrefpath = hrefpath[7:]
+                    hrefpath = hrefpath + ".md"
                     tag.attrs["href"] = urlparse.urljoin(url, hrefpath)
             else:
                 url_parts = urlparse.urlsplit(tag.attrs["src"])
                 srcpath = url_parts.path
+                srcparts = srcpath.split("/")
+                srcpath = srcparts[len(srcparts) -1]
                 tag.attrs["src"] = urlparse.urljoin(img, srcpath)
 
         
