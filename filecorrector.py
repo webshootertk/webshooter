@@ -21,13 +21,13 @@ def get_correctedFiles(path, save, url, img):
         for tag in soup.find_all(lambda t: 'href' in t.attrs or 'src' in t.attrs):
             if 'href' in tag.attrs:
                 url_parts = urlparse.urlsplit(tag.attrs["href"])
+                full_path = tag.attrs["href"]
                 hrefpath = url_parts.path
-                if hrefpath[0:7] != "http://":
+                if full_path[0:4] != "http" or full_path[0:5] != " http":
                     # for wiki conversion (moin moin wikis)
                     hrefpath = hrefpath.replace("/", "|")
                     if hrefpath[0:6] == "|wiki|":
                         hrefpath = hrefpath[6:]
-                    hrefpath = hrefpath + ".md"
                     tag.attrs["href"] = urlparse.urljoin(url, hrefpath)
             else:
                 url_parts = urlparse.urlsplit(tag.attrs["src"])
