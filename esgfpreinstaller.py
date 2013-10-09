@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/local/python
 
 import shutil
 import os
@@ -176,14 +176,35 @@ required_packages = [
 "xorg-x11-xtrans-devel",
 ]
 
-missing_packages = []
+stack_packages = [
+"java",
+"tomcat",
+"python",
+"postgres"
+]
+
 system_packages = []
+missing_packages = []
+
+FNULL = open(os.devnull, 'w')
 
 def check_os():
   print platform.node()
   print platform.platform()
   print " "
   # check for correct os
+
+def check_user():
+  user_id = subprocess.call(["id", "-u", "esg-user"], stdout=FNULL, stderr=subprocess.STDOUT)
+  if user_id: print "We recommend creating and using an esg-user account for this install"
+  else: print "esg-user found"
+  print " "  
+
+def check_host_domain_names():
+  subprocess.call(["hostname", "-s"])
+  subprocess.call(["hostname", "--domain"])
+  subprocess.call(["hostname", "--fqdn"])
+  print " "
 
 def check_packages():
   trans = rpm.TransactionSet()
@@ -201,6 +222,15 @@ def check_packages():
     if package not in system_packages:
       missing_packages.append(package)
   
+def check_stack():
+  global missing_packages
+  for stacks in stack_packages:
+    output = subprocess.call(["which", stacks], stdout=FNULL, stderr=subprocess.STDOUT) 
+    if output:  missing_packages.append(stacks)
+    else: print "%s found" % stacks
+  print " "
+
+def print_findings():
   if len(missing_packages) == 0:
     print "no missing packages"
   else:
@@ -212,19 +242,18 @@ def check_packages():
     print "sudo yum install %s" % missing
     print " "
     print "if yum can not find any of these packages you may need add the epel repo to your yum repo list.\nhttp://www.thegeekstuff.com/2012/06/enable-epel-repository"
+  print " "
 
-def check_host_domain_names():
-  subprocess.call(["cat", "/etc/hosts"])
-
-def check_stack():
-  subprocess.call(["which", "tomcat"])
-  subprocess.call(["which", "postgres"])
-  subprocess.call(["which", "java"])
+def get_esgfbootstrap():
+  print " " 
 
 if __name__ == "__main__":
 
   check_os()
-  check_packages()
+  check_user()
   check_host_domain_names()
+  check_packages()
   check_stack()
+  print_findings()
+  get_esgfbootstrap()
   print "done"
