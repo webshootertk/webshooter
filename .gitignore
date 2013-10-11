@@ -2,6 +2,7 @@
 .hyde_deps
 *.pyc
 urlList
+test
 temp_files/
 raw_files/
 html_files/
