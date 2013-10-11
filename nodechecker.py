@@ -22,8 +22,8 @@ urls = []
 newfile = []
 end_file_flag = False
 
-subprocess.call(["cd", path])
-subprocess.call(["git", "pull"])
+#subprocess.call(["cd", path])
+#subprocess.call(["git", "pull"])
 
 infile = open(path_to_file).readlines()
 clean_string = ''
@@ -63,8 +63,8 @@ outfile = open(path_to_file, "w")
 outfile.write("\n".join(newfile))
 outfile.close()
 
-subprocess.call(["git", "commit", "-am", "\"BOT: AUTO UPDATE NODE STATUS\""])
-subprocess.call(["git", "pull"])
-subprocess.call(["git", "push"])
+#subprocess.call(["git", "commit", "-am", "\"BOT: AUTO UPDATE NODE STATUS\""])
+#subprocess.call(["git", "pull"])
+#subprocess.call(["git", "push"])
 
 print "done"
