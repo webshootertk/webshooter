@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/python
 
 import subprocess
 import urllib
@@ -7,9 +7,12 @@ import argparse
 import os
 import os.path
 import traceback
+import git
 from sys import argv, exit
 
-path = ""
+repo = git.Repo( '/home/harris112/Projects/esgf.github.io.wiki' )
+repo.git.pull()
+
 path_to_file = "Peer-Node-Status.md"
 URL = " URL "
 node_manager = "esgf-node-manager"
@@ -19,8 +22,6 @@ rows = []
 urls = []
 newfile = []
 end_file_flag = False
-
-subprocess.call(["git", "pull"])
 
 infile = open(path_to_file).readlines()
 clean_string = ''
@@ -52,7 +53,10 @@ outfile = open(path_to_file, "w")
 outfile.write("\n".join(newfile))
 outfile.close()
 
-subprocess.call(["git", "commit", "-am", "\"BOT: AUTO UPDATE NODE STATUS\""])
-subprocess.call(["git", "push"])
+status = repo.git.status()
+if "nothing to commit" not in status:
+  repo.git.commit(("-am", "MBH: nightly status update"))
+  repo.git.push()
+else: print status
 
 print "done"
