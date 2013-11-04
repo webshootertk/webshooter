@@ -8,9 +8,10 @@ import os
 import os.path
 import traceback
 import git
+import time
 from sys import argv, exit
 
-repo = git.Repo( '/home/harris112/Projects/esgf.github.io.wiki' )
+repo = git.Repo('/Users/harris112/Projects/esgf/esgf.github.io.wiki')
 repo.git.pull()
 
 path_to_file = "Peer-Node-Status.md"
@@ -18,6 +19,10 @@ URL = " URL "
 node_manager = "esgf-node-manager"
 esgf_web_fe = "esgf-web-fe"
 thredds = "thredds"
+up = " up "
+down = " down "
+date = time.strftime("%x") + " : " + time.strftime("%X")
+none = " - "
 rows = []
 urls = []
 newfile = []
@@ -34,17 +39,23 @@ for line in infile:
             continue
         else:
             url = rows[1].strip()
-            if not url: rows[3] = " - "
+            if not url: 
+                rows[3] = none
             else:
                 try:
                     print url
                     resp = urllib.urlopen(url)
                     code = resp.next()
-                    if node_manager not in code and esgf_web_fe not in code and thredds not in code: rows[3] = " down"
-                    elif resp.getcode() != 200: rows[3] = " down"
-                    else: rows[3] = " up"
-                except: rows[3] = " down" #print traceback.format_exc()
+                    if node_manager not in code and esgf_web_fe not in code and thredds not in code: 
+                        rows[3] = down
+                    elif resp.getcode() != 200: 
+                        rows[3] = down
+                    else: 
+                        rows[3] = up
+                except: 
+                    rows[3] = down #print traceback.format_exc()
 
+            rows[4] = date
             temp =  "|".join(rows)
             newfile.append(temp)
     else: newfile.append(line)

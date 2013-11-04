@@ -18,7 +18,7 @@ path_to_file = "Site-Status.md"
 URL = "site "
 down = " down "
 up = " up "
-date = time.strftime("%x") + " : " + time.strftime("%X")
+date = " " + time.strftime("%x") + " : " + time.strftime("%X")
 
 rows = []
 urls = []
