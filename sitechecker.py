@@ -41,17 +41,16 @@ for line in infile:
                 code = resp.next()
                 if resp.getcode() != 200: 
                     rows[1] = down
-                    rows[2] = date
                 else: 
                     rows[1] = up
-                    rows[2] = date
             except: 
                 rows[1] = down #print traceback.format_exc()
-                rows[2] = date
 
             temp =  "|".join(rows)
             newfile.append(temp)
     else: newfile.append(line)
+
+newfile.append("last updated: " + date)
 
 outfile = open(path_to_file, "w")
 outfile.write("\n".join(newfile))
@@ -59,7 +58,7 @@ outfile.close()
 
 status = repo.git.status()
 if "nothing to commit" not in status:
-  repo.git.commit(("-am", "MBH: nightly status update"))
+  repo.git.commit(("-am", "MBH: hourly status update"))
   repo.git.push()
 else: print status
 
