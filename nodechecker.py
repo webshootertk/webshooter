@@ -11,7 +11,7 @@ import git
 import time
 from sys import argv, exit
 
-repo = git.Repo('/Users/harris112/Projects/esgf/esgf.github.io.wiki')
+repo = git.Repo('/home/harris112/Projects/esgf.github.io.wiki')
 repo.git.pull()
 
 path_to_file = "Peer-Node-Status.md"
@@ -55,10 +55,11 @@ for line in infile:
                 except: 
                     rows[3] = down #print traceback.format_exc()
 
-            rows[4] = date
             temp =  "|".join(rows)
             newfile.append(temp)
-    else: newfile.append(line)
+    else: 
+      if "---" in line:
+        newfile.append(line)
 
 newfile.append("last updated: " + date)
 
