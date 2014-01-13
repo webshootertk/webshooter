@@ -244,6 +244,7 @@ def print_findings():
   print " "
 
 def get_esgfbootstrap():
+  #TODO: complete a full preinstall by setting up for install
   print " " 
 
 if __name__ == "__main__":
