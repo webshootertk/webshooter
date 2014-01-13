@@ -35,7 +35,6 @@ required_packages = [
 "perl-XML-Parser",
 "readline-devel",
 "tk-devel",
-"tomcat",
 "wget",
 "zlib-devel",
 # uvcadt / linux
@@ -177,8 +176,8 @@ required_packages = [
 ]
 
 stack_packages = [
-"java",
-"tomcat",
+"java7",
+"tomcat6",
 "python",
 "postgres"
 ]
