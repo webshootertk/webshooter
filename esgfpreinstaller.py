@@ -56,11 +56,11 @@ required_packages = [
 "dbus-c++-devel",
 "dbus-glib-devel",
 "gtkglext-devel",
-"mesalibGL",
-"mesalibGLU",
+"mesa-libGL-devel",
+"mesa-libGLU-devel",
 "openGL",
 "gstreamer-devel",
-"libcurl4",
+"libcurl-devel",
 "openssl-devel",
 # get all the packages!!
 "gstreamer-plugins-good-devel",
@@ -176,10 +176,10 @@ required_packages = [
 ]
 
 stack_packages = [
-"java7",
+#  GET REAL JAVA7 --> "java7",
 "tomcat6",
 "python",
-"postgres"
+"postgresql-devel"
 ]
 
 system_packages = []
@@ -224,7 +224,8 @@ def check_packages():
 def check_stack():
   global missing_packages
   for stacks in stack_packages:
-    output = subprocess.call(["which", stacks], stdout=FNULL, stderr=subprocess.STDOUT) 
+    output = subprocess.call(["which", stacks], stdout=FNULL, stderr=subprocess.STDOUT)
+    subprocess.call([stacks, "--version"], stdout=FNULL, stderr=subprocess.STDOUT)
     if output:  missing_packages.append(stacks)
     else: print "%s found" % stacks
   print " "
