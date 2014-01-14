@@ -58,7 +58,7 @@ required_packages = [
 "gtkglext-devel",
 "mesa-libGL-devel",
 "mesa-libGLU-devel",
-"openGL",
+"PyOpenGL",  #OpenGL
 "gstreamer-devel",
 "libcurl-devel",
 "openssl-devel",
@@ -179,7 +179,7 @@ stack_packages = [
 #  GET REAL JAVA7 --> "java7",
 "tomcat6",
 "python",
-"postgresql-devel"
+"psql"
 ]
 
 system_packages = []
@@ -213,8 +213,9 @@ def check_packages():
      version =  header['version'].split(".")
      release = int(version[0])
      if release >= 1:
-        print "Having a openssl version higher than 1.0.0 may lead to problems, consider down grading.\nhttp://esgf.org/bugzilla/show_bug.cgi?id=123"
-        print" " 
+        print "Openssl version higher than 1.0.0 may lead to problems, consider down grading.\nhttp://esgf.org/bugzilla/show_bug.cgi?id=123"
+        print" "
+    
   global required_packages
   for package in required_packages:
     global missing_packages
@@ -225,10 +226,21 @@ def check_stack():
   global missing_packages
   for stacks in stack_packages:
     output = subprocess.call(["which", stacks], stdout=FNULL, stderr=subprocess.STDOUT)
-    subprocess.call([stacks, "--version"], stdout=FNULL, stderr=subprocess.STDOUT)
-    if output:  missing_packages.append(stacks)
-    else: print "%s found" % stacks
-  print " "
+    if output:  
+      if stacks == "psql": stacks = " postgresql-devel"
+      missing_packages.append(stacks)
+    else: 
+      if stacks == "tomcat6":
+        print "tomcat info:"
+        subprocess.call([stacks, "version"])
+      else: 
+        if stacks =="python":
+          print "python info:"
+          print "Python 2.7.6 or higher is required"
+        if stacks == "psql":
+          print "postgres info:"
+        subprocess.call([stacks, '--version'])
+    print ""
 
 def print_findings():
   if len(missing_packages) == 0:
@@ -246,7 +258,7 @@ def print_findings():
 
 def get_esgfbootstrap():
   #TODO: complete a full preinstall by setting up for install
-  print " " 
+  print ""
 
 if __name__ == "__main__":
 
