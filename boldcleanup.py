@@ -17,7 +17,7 @@ def get_correctedFiles(path):
         outfile.close()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="converts all the href and scr to point to full path / different location")
+    parser = argparse.ArgumentParser(description="removes all ** from every file in the path")
     parser.add_argument("path", help="folder containing html (raw) files")
 
     args = parser.parse_args()
