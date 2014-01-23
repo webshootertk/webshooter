@@ -1,6 +1,7 @@
 #webshooter
 Is a collection of python scripts for getting, coverting, and creating web content.
 
+* [esgf pre-installer](https://github.com/aims-group/webshooter/wiki/esgfpreinstaller)
 * [file cleaner](https://github.com/aims-group/webshooter/wiki/filecleaner)
 * [file converter](https://github.com/aims-group/webshooter/wiki/fileconverter)
 * [file corrector](https://github.com/aims-group/webshooter/wiki/filecorrector)
@@ -9,7 +10,9 @@ Is a collection of python scripts for getting, coverting, and creating web conte
 * [html 2 text](https://github.com/aims-group/webshooter/wiki/html2text)
 * [html cleaner](https://github.com/aims-group/webshooter/wiki/htmlcleaner)
 * [image gatherer](https://github.com/aims-group/webshooter/wiki/imagegatherer)
+* [python](https://github.com/aims-group/webshooter/wiki/python)
 * [site gatherer](https://github.com/aims-group/webshooter/wiki/sitegatherer)
 * [url gatherer](https://github.com/aims-group/webshooter/wiki/urlgatherer)
 * [web engine](https://github.com/aims-group/webshooter/wiki/webengine)
 * [web shooter](https://github.com/aims-group/webshooter/wiki/webshooter)
+* [wiki](https://github.com/aims-group/webshooter/wiki)
