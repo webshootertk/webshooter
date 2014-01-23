@@ -3,25 +3,29 @@
 import os.path
 import requests
 import time
-import urlparse
 import sys
 import subprocess
 import select
 import urlparse
+from urlparse import urlparse
+from urlparse import urlsplit
 from bs4 import BeautifulSoup
 from random import randint
 
 
 def get_siteFiles(url, save, user, passwd):
-    print "--------------------------------"
-    print "this function is slow on purpose"
-    print "--------------------------------"
+    print " ---------------------------------- "
+    print "| this function is slow on purpose |"
+    print " ---------------------------------- "
 
     if not os.path.exists(save):
         os.makedirs(save)
 
     try:
-        subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", "--user="+user, "--password="+passwd, url])
+        if user == "na":
+            subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", url])
+        else:
+            subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", "--user="+user, "--password="+passwd, url])
         
         folder = urlparse.urlparse(url)
         folder = folder.netloc
@@ -30,6 +34,14 @@ def get_siteFiles(url, save, user, passwd):
     except: 
         print sys.exc_info()[0]
 
+    urlcheck = urlsplit(url)
+    check = urlcheck.hostname
+
+    for dirpath, dirnames, filenames in os.walk(os.path.abspath(check)):
+        for filename in filenames:
+            root, ext = os.path.splitext(filename)
+            if ext in (".php", ".html"):
+                shutil.copyfile(os.path.join(dirpath, filename), os.path.join("../raw_files", root + ".html"))
 
 if __name__ == "__main__":
     import shutil
