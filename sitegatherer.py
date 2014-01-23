@@ -1,16 +1,19 @@
 #!/usr/local/bin/python
-
+import argparse
+from bs4 import BeautifulSoup
+import os
 import os.path
+from random import randint
 import requests
-import time
-import sys
-import subprocess
 import select
+import shutil
+import subprocess
+import sys
+from sys import argv, exit
+import time
 import urlparse
 from urlparse import urlparse
 from urlparse import urlsplit
-from bs4 import BeautifulSoup
-from random import randint
 
 
 def get_siteFiles(url, save, user, passwd):
@@ -21,36 +24,30 @@ def get_siteFiles(url, save, user, passwd):
     if not os.path.exists(save):
         os.makedirs(save)
 
+    fold = urlsplit(url)
+    folder = fold.hostname
+    check = "whole_site"
+   
     try:
         if user == "na":
             subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", url])
         else:
             subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", "--user="+user, "--password="+passwd, url])
         
-        folder = urlparse.urlparse(url)
-        folder = folder.netloc
-        os.rename(folder, save)
+        os.rename(folder, check)
     
     except: 
         print sys.exc_info()[0]
-
-    urlcheck = urlsplit(url)
-    check = urlcheck.hostname
 
     for dirpath, dirnames, filenames in os.walk(os.path.abspath(check)):
         for filename in filenames:
             root, ext = os.path.splitext(filename)
             if ext in (".php", ".html"):
-                shutil.copyfile(os.path.join(dirpath, filename), os.path.join("../raw_files", root + ".html"))
+                print filename
+                shutil.copyfile(os.path.join(dirpath, filename), os.path.join(save, root + ".html"))
 
 if __name__ == "__main__":
-    import shutil
-    import argparse
-    import os
-    from sys import argv, exit
-
     parser = argparse.ArgumentParser(description="wget -r --wait=7 --random-wait --no-check-certificate --user=X --passwd=Y URL")
-
     parser.add_argument("url", help="url of site")
     parser.add_argument("user", help="username if required if not enter \"na\"")
     parser.add_argument("passwd", help="password if required if not enter \"na\"")
