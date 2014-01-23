@@ -10,7 +10,9 @@ import select
 import urlparse
 from bs4 import BeautifulSoup
 from random import randint
-def get_siteFiles(url, save):
+
+
+def get_siteFiles(url, save, user, passwd):
     print "--------------------------------"
     print "this function is slow on purpose"
     print "--------------------------------"
@@ -19,7 +21,7 @@ def get_siteFiles(url, save):
         os.makedirs(save)
 
     try:
-        subprocess.call(["wget", "-r", "--accept=html", "--wait=5", "--random-wait", url])
+        subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", "--user="+user, "--password="+passwd, url])
         
         folder = urlparse.urlparse(url)
         folder = folder.netloc
@@ -35,10 +37,11 @@ if __name__ == "__main__":
     import os
     from sys import argv, exit
 
-    parser = argparse.ArgumentParser(description="wget -r a website (only html pages)")
-    parser.add_argument("url", help="url of site")
-    parser.add_argument("save", help="folder name to save html (raw) files in")
+    parser = argparse.ArgumentParser(description="wget -r --wait=7 --random-wait --no-check-certificate --user=X --passwd=Y URL")
 
+    parser.add_argument("url", help="url of site")
+    parser.add_argument("user", help="username if required if not enter \"na\"")
+    parser.add_argument("passwd", help="password if required if not enter \"na\"")
     args = parser.parse_args()
 
     resp = requests.get(args.url)
@@ -46,7 +49,8 @@ if __name__ == "__main__":
         print "Sorry, site not reachable, error occurred."
         exit()
 
-    if get_siteFiles(args.url, args.save):
+    save = "raw_files"
+    if get_siteFiles(args.url, save, args.user, args.passwd):
         print "Error"
     else:
         print "Done"
