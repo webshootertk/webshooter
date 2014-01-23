@@ -1,10 +1,11 @@
 #!/usr/local/bin/python
-import shutil
+
 import argparse
 import os
 import requests
-from urlparse import urlparse
+import shutil
 from sys import argv, exit
+from urlparse import urlparse
 
 def worldEngine(url, href, src, option, resp):
     baseURL =  "http://" + urlparse(url).hostname 

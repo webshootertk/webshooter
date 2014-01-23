@@ -4,13 +4,12 @@ import getpass
 import os
 import re
 import shutil
+import site
 import subprocess
 import sys
 import tempfile
 import time
 import yaml
-
-import site
 
 if sys.version_info[0] == 2:
   if raw_input("""I was written in Python 3.x, but you're running me with Python 2.x! I was NOT

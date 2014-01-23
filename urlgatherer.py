@@ -1,9 +1,14 @@
 #!/usr/local/bin/python
 
-import requests
+import argparse
+from bs4 import BeautifulSoup 
+import os
 import os.path
+import requests
+import shutil
+from sys import argv, exit
 from urlparse import urlparse
-from bs4 import BeautifulSoup   
+
 def get_urlList(url, urlFile, resp):
     file_to_write = open(urlFile, "w")
     file_to_write.write(resp.text)
@@ -38,11 +43,6 @@ def get_urlList(url, urlFile, resp):
     return
 
 if __name__ == "__main__":
-    import shutil
-    import argparse
-    import os
-    from sys import argv, exit
-
     parser = argparse.ArgumentParser(description="Get all links on a page and save to a file")
     parser.add_argument("url", help="URL which to pull all the links out of")
     parser.add_argument("urlFile", help="Name of the file to save the list of urls in")

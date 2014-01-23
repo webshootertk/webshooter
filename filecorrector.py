@@ -1,12 +1,14 @@
 #!/usr/local/bin/python
 
-import shutil
-import os
-import os.path
-import urlparse
+import argparse
+from bs4 import BeautifulSoup   
 import html2text
 from htmlcleaner import filtered_text
-from bs4 import BeautifulSoup   
+import os
+import os.path
+import shutil
+from sys import argv, exit
+import urlparse
 
 def get_correctedFiles(path, save, url, img):
 
@@ -42,11 +44,6 @@ def get_correctedFiles(path, save, url, img):
         outfile.close()
 
 if __name__ == "__main__":
-    import shutil
-    import argparse
-    import os
-    from sys import argv, exit
-
     parser = argparse.ArgumentParser(description="converts all the href and scr to point to full path / different location")
     parser.add_argument("path", help="folder containing html (raw) files")
     parser.add_argument("save", help="folder to put converted html files")
@@ -63,8 +60,3 @@ if __name__ == "__main__":
         print "Error"
     else:
         print "Done"
-
-
-
-
-

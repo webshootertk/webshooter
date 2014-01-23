@@ -1,11 +1,13 @@
 #!/usr/local/bin/python
 
-import shutil
-import os
-import os.path
-from htmlcleaner import filtered_text
+import argparse
 from bs4 import BeautifulSoup   
 import html2text
+from htmlcleaner import filtered_text
+import os
+import os.path
+import shutil
+from sys import argv, exit
 
 def get_convertedFiles(path, save):
 
@@ -28,11 +30,6 @@ def get_convertedFiles(path, save):
             outfile.close()
 
 if __name__ == "__main__":
-    import shutil
-    import argparse
-    import os
-    from sys import argv, exit
-
     parser = argparse.ArgumentParser(description="converts html (raw) files to markdown")
     parser.add_argument("path", help="folder containing a html (raw) files")
     parser.add_argument("save", help="folder to put markdown files")
@@ -47,7 +44,3 @@ if __name__ == "__main__":
         print "Error"
     else:
         print "Done"
-
-
-
-

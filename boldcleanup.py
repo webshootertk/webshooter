@@ -1,7 +1,11 @@
 #!/usr/local/bin/python
-import shutil
+
+import argparse
 import os
 import os.path
+import shutil
+from sys import argv, exit
+
 def get_correctedFiles(path):
 
     for f in os.listdir(path):
@@ -13,10 +17,6 @@ def get_correctedFiles(path):
         outfile.close()
 
 if __name__ == "__main__":
-    import shutil
-    import argparse
-    from sys import argv, exit
-
     parser = argparse.ArgumentParser(description="converts all the href and scr to point to full path / different location")
     parser.add_argument("path", help="folder containing html (raw) files")
 
@@ -30,9 +30,3 @@ if __name__ == "__main__":
         print "Error"
     else:
         print "Done"
-
-
-
-
-
-

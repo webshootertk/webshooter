@@ -1,15 +1,15 @@
 #!/usr/local/bin/python
 
-import shutil
 import argparse
-import urllib
-import urllib2
+from bs4 import BeautifulSoup   
+from htmlcleaner import filtered_text
 import os
 import os.path
 import requests
-from htmlcleaner import filtered_text
-from bs4 import BeautifulSoup   
+import shutil
 from sys import argv, exit
+import urllib
+import urllib2
 
 def get_imageFiles(path, save, domain):
     

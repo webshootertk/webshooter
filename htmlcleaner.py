@@ -1,6 +1,10 @@
 #!/usr/local/bin/python
+
+import argparse
 from bs4 import BeautifulSoup
 from bs4.element import Tag, Comment
+import os.path
+from sys import stderr, exit
 
 __ugly_tags__ = ["script", "noscript", "embed", "object", "iframe"]
 
@@ -42,7 +46,6 @@ def __filter_text__(tag, allowed_tags, validator):
 
 
 def filtered_text(tag, allowed_tags, validator=None):
-	
 	if not is_tag(tag):
 		return tag
 
@@ -66,9 +69,6 @@ def filtered_text(tag, allowed_tags, validator=None):
 	return text.strip()
 
 if __name__ == "__main__":
-	import argparse
-	import os.path
-	from sys import stderr, exit
 	parser = argparse.ArgumentParser(description='extracts text from body of an HTML document')
 	parser.add_argument("infile", help="path to html (raw) files")
 	parser.add_argument("outfile", help="path to desired output file")

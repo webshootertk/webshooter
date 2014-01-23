@@ -1,10 +1,12 @@
 #!/usr/local/bin/python
 
-import shutil
+import argparse
+from bs4 import BeautifulSoup   
+from htmlcleaner import filtered_text
 import os
 import os.path
-from htmlcleaner import filtered_text
-from bs4 import BeautifulSoup   
+import shutil
+from sys import argv, exit
 
 def get_cleanFiles(path, save, topfile, bottomfile):
     
@@ -44,11 +46,6 @@ def get_cleanFiles(path, save, topfile, bottomfile):
                 outfile.close()
 
 if __name__ == "__main__":
-    import shutil
-    import argparse
-    import os
-    from sys import argv, exit
-
     parser = argparse.ArgumentParser(description="strips out all html, and removes X, Y lines from the top and bottom of the file.")
     parser.add_argument("path", help="folder containing raw files")
     parser.add_argument("save", help="folder to put clean files")
@@ -65,7 +62,3 @@ if __name__ == "__main__":
         print "Error"
     else:
         print "Done"
-
-
-
-

@@ -1,15 +1,15 @@
 #!/usr/bin/python
 
-import subprocess
-import urllib
-import shutil
 import argparse
+import git
 import os
 import os.path
-import traceback
-import git
-import time
+import shutil
+import subprocess
 from sys import argv, exit
+import traceback
+import time
+import urllib
 
 repo = git.Repo('/home/harris112/Projects/esgf.github.io.wiki')
 repo.git.pull()

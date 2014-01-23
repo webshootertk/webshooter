@@ -1,13 +1,13 @@
 #!/usr/local/python
 
-import shutil
 import os
 import os.path
-import sys
-import subprocess
-import yum
-import rpm
 import platform
+import rpm
+import shutil
+import subprocess
+import sys
+import yum
 
 required_packages = [
 # esgf

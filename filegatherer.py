@@ -1,12 +1,17 @@
 #!/usr/local/bin/python
 
+import argparse
+from bs4 import BeautifulSoup
+import os
 import os.path
+from random import randint
 import requests
+import shutil
+import sys
+from sys import argv, exit
 import time
 import urlparse
-from bs4 import BeautifulSoup
-from random import randint
-import sys
+
 def get_filesFromList(urlFile, save):
     print "--------------------------------"
     print "this function is slow on purpose"
@@ -53,11 +58,6 @@ def get_filesFromList(urlFile, save):
 
 
 if __name__ == "__main__":
-    import shutil
-    import argparse
-    import os
-    from sys import argv, exit
-
     parser = argparse.ArgumentParser(description="gets all files from a list of urls")
     parser.add_argument("urlFile", help="file containing a list of urls")
     parser.add_argument("save", help="folder name to save htlm (raw) files in")
