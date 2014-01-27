@@ -18,4 +18,5 @@ Is a collection of python scripts for getting, coverting, and creating web conte
 * [url gatherer](https://github.com/aims-group/webshooter/wiki/urlgatherer)
 * [web engine](https://github.com/aims-group/webshooter/wiki/webengine)
 * [web shooter](https://github.com/aims-group/webshooter/wiki/webshooter)
+* [wget](https://github.com/aims-group/webshooter/wiki/wget)
 * [wiki](https://github.com/aims-group/webshooter/wiki)
