@@ -16,7 +16,7 @@ from urlparse import urlparse
 from urlparse import urlsplit
 
 
-def get_siteFiles(url, save, user, passwd):
+def get_siteFiles(url):
     print " ---------------------------------- "
     print "| this function is slow on purpose |"
     print " ---------------------------------- "
@@ -27,14 +27,21 @@ def get_siteFiles(url, save, user, passwd):
     fold = urlsplit(url)
     folder = fold.hostname
     location = "whole_site"
+
+    wget =    "wget"
+    r =       "-r"
+    wait =    "--wait=7"
+    random =  "--random-wait"
+    no =      "--no-check-certificate"
+    convert = "--convert-links"
+    mirror =  "--mirror"
+    trust =   "--trust-server-names"
+    adjust =  "--adjust-extension"
+    user =    "--user="
+    passwd =  "--password="
    
     try:
-        if user == "na":
-            subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", url])
-        elif user == "html":
-            subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", "--accept=html", url])
-        else:
-            subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", "--user="+user, "--password="+passwd, url])
+        subprocess.call([wget, r, wait, random, no, convert, mirror, trust, adjust, url]) 
         
         os.rename(folder, location)
     
@@ -49,10 +56,8 @@ def get_siteFiles(url, save, user, passwd):
                 shutil.copyfile(os.path.join(dirpath, filename), os.path.join(save, root + ".html"))
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="wget -r --wait=7 --random-wait --no-check-certificate --user=X --passwd=Y URL")
+    parser = argparse.ArgumentParser(description="wget ALL the pages")
     parser.add_argument("url", help="url of site")
-    parser.add_argument("user", help="username if required if not enter \"na\"")
-    parser.add_argument("passwd", help="password if required if not enter \"na\"")
     args = parser.parse_args()
 
     resp = requests.get(args.url)
@@ -61,7 +66,8 @@ if __name__ == "__main__":
         exit()
 
     save = "raw_files"
-    if get_siteFiles(args.url, save, args.user, args.passwd):
+    if get_siteFiles(args.url):
         print "Error"
     else:
         print "Done"
+
