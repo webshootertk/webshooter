@@ -44,7 +44,7 @@ def get_siteFiles(url, save, user, passwd):
     for dirpath, dirnames, filenames in os.walk(os.path.abspath(location)):
         for filename in filenames:
             root, ext = os.path.splitext(filename)
-            if ext in (".php", ".html"):
+            if ext in (".php", ".html", ""):
                 print filename
                 shutil.copyfile(os.path.join(dirpath, filename), os.path.join(save, root + ".html"))
 

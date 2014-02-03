@@ -11,3 +11,4 @@ clean_files/
 md_files/
 image_files/
 whole_site/
+*.gz
