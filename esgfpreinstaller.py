@@ -177,7 +177,7 @@ required_packages = [
 
 stack_packages = [
 #  GET REAL JAVA7 --> "java7",
-"tomcat6",
+"tomcat",
 "python",
 "psql"
 ]
@@ -252,6 +252,8 @@ def print_findings():
     print "missing %d of %d packages" % (total_missing, total_required)
     print "try installing  with yum:"
     print "sudo yum install %s" % missing
+    print " "
+    print "Another quick fix it sudo yum install xorg*"
     print " "
     print "if yum can not find any of these packages you may need add the epel repo to your yum repo list.\nhttp://www.thegeekstuff.com/2012/06/enable-epel-repository"
   print " "
