@@ -254,6 +254,8 @@ def print_findings():
     print "sudo yum install %s" % missing
     print " "
     print "Another quick fix it sudo yum install xorg*"
+    print "yum install autoconf automake bison file flex gcc gcc-c++ gettext-devel libtool libuuid-devel libxml2 libxml2-devel libxslt libxslt-devel lsof make openssl-devel pam-devel pax readline-devel tk-devel wget zlib-devel *ExtUtils* perl-Archive-Tar perl-XML-Parser gcc-gfortran ntp xorg*"
+    
     print " "
     print "if yum can not find any of these packages you may need add the epel repo to your yum repo list.\nhttp://www.thegeekstuff.com/2012/06/enable-epel-repository"
   print " "
