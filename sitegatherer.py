@@ -39,6 +39,7 @@ def get_siteFiles(url, save, user, passwd):
         os.rename(folder, location)
     
     except: 
+        print "except"
         print sys.exc_info()[0]
 
     for dirpath, dirnames, filenames in os.walk(os.path.abspath(location)):

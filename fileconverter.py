@@ -20,6 +20,7 @@ def get_convertedFiles(path, save):
             print "converting file %s" % f
             infile = open(os.path.join(path, f)).read()
             h2t = html2text.HTML2Text()
+            jekyll = "---\nlayout: default\ntitle: \n---\n\n"
             content = h2t.handle(infile)
             if extension == ".html":
                 fileName = f[0:len(f) -5] + ".md"
