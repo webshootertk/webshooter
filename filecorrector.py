@@ -27,7 +27,7 @@ def get_correctedFiles(path, save, url, img):
                 hrefpath = url_parts.path
                 if full_path[0:4] != "http" or full_path[0:5] != " http":
                     # for wiki conversion (moin moin wikis)
-                    hrefpath = hrefpath.replace("/", "|")
+                    # hrefpath = hrefpath.replace("/", "|")
                     if hrefpath[0:6] == "|wiki|":
                         hrefpath = hrefpath[6:]
                     tag.attrs["href"] = urlparse.urljoin(url, hrefpath)
