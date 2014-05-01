@@ -11,7 +11,7 @@ from urlparse import urlparse
 
 def get_urlList(url, urlFile, resp):
     file_to_write = open(urlFile, "w")
-    file_to_write.write(resp.text)
+    file_to_write.write(resp.text.encode("ascii", "xmlcharrefreplace"))
     file_to_write.close()
 
     infile = open(urlFile).readlines()

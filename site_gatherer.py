@@ -27,14 +27,27 @@ def get_siteFiles(url, save, user, passwd):
     fold = urlsplit(url)
     folder = fold.hostname
     location = "whole_site"
-   
+
+    _wget =    "/usr/local/Cellar/wget/1.14/bin/wget"
+    _r =       "-r"
+    _wait =    "--wait=7"
+    _random =  "--random-wait"
+    _no =      "--no-check-certificate"
+    _html =    "--accept=html"
+    _convert = "--convert-links"
+    _mirror =  "--mirror"
+    _trust =   "--trust-server-names"
+    _adjust =  "--adjust-extension"
+    _user =    "--user="
+    _passwd =  "--password="
+
     try:
         if user == "na":
-            subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", url])
+            subprocess.call([_wget, _r, _wait, _random, _no, url])
         elif user == "html":
-            subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", "--accept=html", url])
+            subprocess.call([_wget, _r, _wait, _random, _no, _html , url])
         else:
-            subprocess.call(["wget", "-r", "--wait=7", "--random-wait", "--no-check-certificate", "--user="+user, "--password="+passwd, url])
+            subprocess.call([_wget, _r, _wait, _random, _no, _user+user, _passwd+passwd, url])
         
         os.rename(folder, location)
     

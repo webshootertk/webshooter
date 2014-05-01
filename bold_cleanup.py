@@ -9,7 +9,7 @@ from sys import argv, exit
 def get_correctedFiles(path):
 
     for f in os.listdir(path):
-        print "correcting file %s" % f
+        print "removing bold and italic markup in file %s" % f
         infile = open(os.path.join(path, f)).read()
         infile = infile.replace("**","")
         infile = infile.replace(" _","")

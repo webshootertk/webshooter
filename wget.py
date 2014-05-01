@@ -28,20 +28,21 @@ def get_siteFiles(url):
     folder = fold.hostname
     location = "whole_site"
 
-    wget =    "wget"
-    r =       "-r"
-    wait =    "--wait=7"
-    random =  "--random-wait"
-    no =      "--no-check-certificate"
-    convert = "--convert-links"
-    mirror =  "--mirror"
-    trust =   "--trust-server-names"
-    adjust =  "--adjust-extension"
-    user =    "--user="
-    passwd =  "--password="
+    _wget =    "/usr/local/Cellar/wget/1.14/bin/wget"
+    _r =       "-r"
+    _wait =    "--wait=7"
+    _random =  "--random-wait"
+    _no =      "--no-check-certificate"
+    _html =    "--accept=html"
+    _convert = "--convert-links"
+    _mirror =  "--mirror"
+    _trust =   "--trust-server-names"
+    _adjust =  "--adjust-extension"
+    _user =    "--user="
+    _passwd =  "--password="
    
     try:
-        subprocess.call([wget, r, wait, random, no, convert, mirror, trust, adjust, url]) 
+        subprocess.call([_wget, _r, _wait, _random, _no, _convert, _mirror, _trust, _adjust, url]) 
         
         os.rename(folder, location)
     

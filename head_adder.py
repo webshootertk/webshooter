@@ -4,12 +4,11 @@ import argparse
 import os
 import os.path
 import shutil
-from sys import argv, exit
+from sys import argv, exit, stderr
 
-def add_headers(path, types):
-
+def add_headers(path, case):
     for f in os.listdir(path):
-        print "correcting file %s" % f
+        print "updating header in file %s" % f
         infile = open(os.path.join(path, f)).read()
         if case == "jekyll":
             infile = "---\n" + \
@@ -30,7 +29,8 @@ def add_headers(path, types):
                      "\n" + \
                      "{% block container %}" + \
                      infile + \
-                     "\n{% endblock container %}"
+                     "\n{% endblock container %}" + \
+                     "\n"
 
         outfile = open(os.path.join(path, f), "w")
         outfile.write(infile)
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         stderr.write("folder %s not found." % args.path)
         exit()
 
-    if type not in ("jekyll","hyde"):
+    if args.case not in ("jekyll","hyde"):
         stderr.write("type must be either \"jekyll\" or \"hyde\"")
         exit()
 

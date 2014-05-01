@@ -26,7 +26,7 @@ def get_imageFiles(path, save, domain):
             else:
                 imgURL = domain + "/" + img['src']
 
-            print imgURL
+            print "gathering %s" % imgURL
             urllib.urlretrieve(imgURL, os.path.join(save, os.path.basename(imgURL)))
 
 if __name__ == "__main__":
