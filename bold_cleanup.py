@@ -12,12 +12,15 @@ def get_correctedFiles(path):
         print "correcting file %s" % f
         infile = open(os.path.join(path, f)).read()
         infile = infile.replace("**","")
+        infile = infile.replace(" _","")
+        infile = infile.replace("_ ","")
+        infile = infile.replace(" __ ","")
         outfile = open(os.path.join(path, f), "w")
         outfile.write(infile)
         outfile.close()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="removes all ** from every file in the path")
+    parser = argparse.ArgumentParser(description="removes all bad bold and italic markup")
     parser.add_argument("path", help="folder containing html (raw) files")
 
     args = parser.parse_args()

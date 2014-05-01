@@ -3,7 +3,7 @@
 import argparse
 from bs4 import BeautifulSoup   
 import html2text
-from htmlcleaner import filtered_text
+from html_cleaner import filtered_text
 import os
 import os.path
 import shutil

@@ -16,38 +16,38 @@ def worldEngine(url, href, src, option, resp):
     image_files = "image_files"
 
     if option != "site":
-        from urlgatherer import get_urlList
+        from url_gatherer import get_urlList
         if get_urlList(url, urlFile, resp):
             print "!! Error: urlgatherer did not finish !!"
         else:
             print "** urlgatherer finished **"
 
-        from filegatherer import get_filesFromList 
+        from file_gatherer import get_filesFromList 
         if get_filesFromList(urlFile, raw_files):
             print "!! Error: filegatherer did not finish !!"
         else:
             print "** filegatherer finished **"
     
     else:
-        from sitegatherer import get_siteFiles
+        from site_gatherer import get_siteFiles
         if get_siteFiles(url, raw_files, "na", "na"):
             print "!! Error: sitegaterer did not finish !!"
         else:
             print "** sitegaterer finished **"
    
-    from filecorrector import get_correctedFiles 
+    from file_corrector import get_correctedFiles 
     if get_correctedFiles(raw_files, html_files, href, src):
         print "!! Error: filecorrector did not finish !!"
     else:
         print "** filecorrector finished **"
 
-    from fileconverter import get_convertedFiles
+    from file_converter import get_convertedFiles
     if get_convertedFiles(html_files, md_files):
         print "!! Error fileconverter did not finish !!"
     else:
         print "** fileconverter finished **"
 
-    from imagegatherer import get_imageFiles
+    from image_gatherer import get_imageFiles
     if get_imageFiles(raw_files, image_files, baseURL):
         print "!! Error imagegatherer did not finish !!"
     else:
