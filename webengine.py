@@ -11,33 +11,40 @@ def worldEngine(url, href, src, option, resp, case):
     baseURL =  "http://" + urlparse(url).hostname 
     urlFile = "urlList"
     raw_files = "raw_files"
+    extracted_files = "extracted_files"
     html_files = "html_files"
     html_dirty_files = "html_dirty_files"
     md_files = "md_files"
     image_files = "image_files"
 
-#    if option != "site":
-#        from url_gatherer import get_urlList
-#        if get_urlList(url, urlFile, resp):
-#            print "!! Error: url_gatherer did not finish !!"
-#        else:
-#            print "** url_gatherer finished **"
-#
-#        from file_gatherer import get_filesFromList 
-#        if get_filesFromList(urlFile, raw_files):
-#            print "!! Error: file_gatherer did not finish !!"
-#        else:
-#            print "** file_gatherer finished **"
-#    
-#    else:
-#        from site_gatherer import get_siteFiles
-#        if get_siteFiles(url, raw_files, "na", "na"):
-#            print "!! Error: site_gaterer did not finish !!"
-#        else:
-#            print "** site_gaterer finished **"
+    if option != "site":
+        from url_gatherer import get_urlList
+        if get_urlList(url, urlFile, resp):
+            print "!! Error: url_gatherer did not finish !!"
+        else:
+            print "** url_gatherer finished **"
+
+        from file_gatherer import get_filesFromList 
+        if get_filesFromList(urlFile, raw_files):
+            print "!! Error: file_gatherer did not finish !!"
+        else:
+            print "** file_gatherer finished **"
+
+    else:
+        from site_gatherer import get_siteFiles
+        if get_siteFiles(url, raw_files, "na", "na"):
+            print "!! Error: site_gaterer did not finish !!"
+        else:
+            print "** site_gaterer finished **"
+
+    from file_extractor import get_fileContent 
+    if get_fileContent(raw_files, extracted_files):
+        print "!! Error: file_corrector did not finish !!"
+    else:
+        print "** file_corrector finished **"
 
     from file_corrector import get_correctedFiles 
-    if get_correctedFiles(raw_files, html_files, href, src):
+    if get_correctedFiles(extracted_files, html_files, href, src):
         print "!! Error: file_corrector did not finish !!"
     else:
         print "** file_corrector finished **"
@@ -93,10 +100,13 @@ if __name__ == "__main__":
     else:
         print "** site is habitable  **"
         print " "
-        print "raw_files   -> what came from the server (old html)"
-        print "html_files  -> files from server with new href and src links (new html)"
-        print "md_files    -> the \"new html\" files converted to markdown (markdown)"
-        print "image_files -> all the image files from the old site (images)"
+        print "extracted_files   -> just the body of the raw html files"
+        print "html_dirty_files  -> html files with converted tables html to markdown"
+        print "html_files        -> files from server with new href and src links (new html)"
+        print "image_files       -> all the image files from the old site (images)"
+        print "md_files          -> the \"new html\" files converted to markdown (markdown)"
+        print "raw_files         -> what came from the server (old html)"
+        print "whole_site        -> The whole site from wget"
         print " "
         print "You may want to run md_files through file_trimmer.py to remove unwated headers and footers"
         print "If so remember to then run head_adder.py again by hand"

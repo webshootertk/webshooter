@@ -8,6 +8,7 @@ temp_files/
 raw_files/
 html_files/
 html_dirty_files/
+extracted_files/
 converted_files/
 clean_files/
 md_files/
