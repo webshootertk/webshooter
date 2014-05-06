@@ -12,37 +12,44 @@ def worldEngine(url, href, src, option, resp, case):
     urlFile = "urlList"
     raw_files = "raw_files"
     html_files = "html_files"
+    html_dirty_files = "html_dirty_files"
     md_files = "md_files"
     image_files = "image_files"
 
-    if option != "site":
-        from url_gatherer import get_urlList
-        if get_urlList(url, urlFile, resp):
-            print "!! Error: url_gatherer did not finish !!"
-        else:
-            print "** url_gatherer finished **"
+#    if option != "site":
+#        from url_gatherer import get_urlList
+#        if get_urlList(url, urlFile, resp):
+#            print "!! Error: url_gatherer did not finish !!"
+#        else:
+#            print "** url_gatherer finished **"
+#
+#        from file_gatherer import get_filesFromList 
+#        if get_filesFromList(urlFile, raw_files):
+#            print "!! Error: file_gatherer did not finish !!"
+#        else:
+#            print "** file_gatherer finished **"
+#    
+#    else:
+#        from site_gatherer import get_siteFiles
+#        if get_siteFiles(url, raw_files, "na", "na"):
+#            print "!! Error: site_gaterer did not finish !!"
+#        else:
+#            print "** site_gaterer finished **"
 
-        from file_gatherer import get_filesFromList 
-        if get_filesFromList(urlFile, raw_files):
-            print "!! Error: file_gatherer did not finish !!"
-        else:
-            print "** file_gatherer finished **"
-    
-    else:
-        from site_gatherer import get_siteFiles
-        if get_siteFiles(url, raw_files, "na", "na"):
-            print "!! Error: site_gaterer did not finish !!"
-        else:
-            print "** site_gaterer finished **"
-   
     from file_corrector import get_correctedFiles 
     if get_correctedFiles(raw_files, html_files, href, src):
         print "!! Error: file_corrector did not finish !!"
     else:
         print "** file_corrector finished **"
 
+    from html_table_2_markdown import get_correctedFiles
+    if get_correctedFiles(html_files, html_dirty_files):
+        print "!! Error: html_table_2_markdown did not finish !!"
+    else:
+        print "** html_table_2_markdown finished **"
+
     from file_converter import get_convertedFiles
-    if get_convertedFiles(html_files, md_files):
+    if get_convertedFiles(html_dirty_files, md_files):
         print "!! Error file_converter did not finish !!"
     else:
         print "** file_converter finished **"
