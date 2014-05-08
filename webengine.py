@@ -14,8 +14,13 @@ def worldEngine(url, href, src, option, resp, case):
     extracted_files = "extracted_files"
     html_files = "html_files"
     html_dirty_files = "html_dirty_files"
-    md_files = "md_files"
+    completed_files = "completed_files"
     image_files = "image_files"
+    
+    file_ext = "md"
+    if case == "hyde":
+        file_ext = "html"
+    print "Will save completed_files with the file extension % s" % file_ext
 
     if option != "site":
         from url_gatherer import get_urlList
@@ -56,7 +61,7 @@ def worldEngine(url, href, src, option, resp, case):
         print "** html_table_2_markdown finished **"
 
     from file_converter import get_convertedFiles
-    if get_convertedFiles(html_dirty_files, md_files):
+    if get_convertedFiles(html_dirty_files, completed_files, file_ext):
         print "!! Error file_converter did not finish !!"
     else:
         print "** file_converter finished **"
@@ -68,13 +73,13 @@ def worldEngine(url, href, src, option, resp, case):
         print "** image_gatherer finished **"
     
     from bold_cleanup import get_correctedFiles
-    if get_correctedFiles(md_files):
+    if get_correctedFiles(completed_files):
         print "!! Error bold_cleanup did not finish !!"
     else:
         print "** bold_cleanup finished **"
 
     from head_adder import add_headers
-    if add_headers(md_files, case):
+    if add_headers(completed_files, case):
         print "!! Error head_adder did not finish !!"
     else:
         print "** head_adder finished **"
