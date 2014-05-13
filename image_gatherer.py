@@ -21,10 +21,13 @@ def get_imageFiles(path, save, domain):
         soup = BeautifulSoup(infile)
         imgs = soup.findAll("img")
         for img in imgs:
-            if img['src'][0] == "/":
-                imgURL = domain + img['src']
+            if "http://" in img['src'] or "https://" in img['src']:
+                imgURL = img['src']
             else:
-                imgURL = domain + "/" + img['src']
+                if img['src'][0] == "/":
+                    imgURL = domain + img['src']
+                else:
+                    imgURL = domain + "/" + img['src']
 
             print "gathering %s" % imgURL
             urllib.urlretrieve(imgURL, os.path.join(save, os.path.basename(imgURL)))

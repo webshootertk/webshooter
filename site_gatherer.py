@@ -21,12 +21,9 @@ def get_siteFiles(url, save, user, passwd):
     print "| this function is slow on purpose |"
     print " ---------------------------------- "
 
-    if not os.path.exists(save):
-        os.makedirs(save)
-
     fold = urlsplit(url)
     folder = fold.hostname
-    location = "whole_site"
+    location = save
 
     _wget =    "/usr/local/Cellar/wget/1.14/bin/wget"
     _r =       "-r"
@@ -55,12 +52,16 @@ def get_siteFiles(url, save, user, passwd):
         print "except"
         print sys.exc_info()[0]
 
-    for dirpath, dirnames, filenames in os.walk(os.path.abspath(location)):
-        for filename in filenames:
-            root, ext = os.path.splitext(filename)
-            if ext in (".php", ".html", ""):
-                print filename
-                shutil.copyfile(os.path.join(dirpath, filename), os.path.join(save, root + ".html"))
+##### MOVED TO file_extractor ######
+#    if not os.path.exists(save):
+#        os.makedirs(save)
+#
+#    for dirpath, dirnames, filenames in os.walk(os.path.abspath(location)):
+#        for filename in filenames:
+#            root, ext = os.path.splitext(filename)
+#            if ext in (".php", ".html", ""):
+#                print filename
+#                shutil.copyfile(os.path.join(dirpath, filename), os.path.join(save, root + ".html"))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="wget -r --wait=7 --random-wait --no-check-certificate --user=X --passwd=Y URL")

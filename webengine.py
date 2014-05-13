@@ -11,6 +11,7 @@ def worldEngine(url, href, src, option, resp, case):
     baseURL =  "http://" + urlparse(url).hostname 
     urlFile = "urlList"
     raw_files = "raw_files"
+    whole_site = "whole_site"
     extracted_files = "extracted_files"
     html_files = "html_files"
     html_dirty_files = "html_dirty_files"
@@ -30,20 +31,20 @@ def worldEngine(url, href, src, option, resp, case):
             print "** url_gatherer finished **"
 
         from file_gatherer import get_filesFromList 
-        if get_filesFromList(urlFile, raw_files):
+        if get_filesFromList(urlFile, whole_site):
             print "!! Error: file_gatherer did not finish !!"
         else:
             print "** file_gatherer finished **"
 
     else:
         from site_gatherer import get_siteFiles
-        if get_siteFiles(url, raw_files, "na", "na"):
+        if get_siteFiles(url, whole_site, "na", "na"):
             print "!! Error: site_gaterer did not finish !!"
         else:
             print "** site_gaterer finished **"
 
     from file_extractor import get_fileContent 
-    if get_fileContent(raw_files, extracted_files):
+    if get_fileContent(whole_site, extracted_files):
         print "!! Error: file_corrector did not finish !!"
     else:
         print "** file_corrector finished **"
@@ -67,7 +68,7 @@ def worldEngine(url, href, src, option, resp, case):
         print "** file_converter finished **"
 
     from image_gatherer import get_imageFiles
-    if get_imageFiles(raw_files, image_files, baseURL):
+    if get_imageFiles(extracted_files, image_files, baseURL):
         print "!! Error image_gatherer did not finish !!"
     else:
         print "** image_gatherer finished **"
