@@ -11,10 +11,18 @@ from sys import argv, exit
 import urllib
 import urllib2
 
-def get_imageFiles(path, save, domain):
-    
+def download_images(collection, save):
     if not os.path.exists(save):
         os.makedirs(save)
+
+    for image in collection:
+         print "gathering %s" % image
+         urllib.urlretrieve(image, os.path.join(save, os.path.basename(image)))
+
+def get_imageFiles(path, save, domain):
+    collection = []
+    print "checking all files for images"
+    print "this can take a bit..."
 
     for f in os.listdir(path):
         infile = open(os.path.join(path, f)).read()
@@ -29,8 +37,10 @@ def get_imageFiles(path, save, domain):
                 else:
                     imgURL = domain + "/" + img['src']
 
-            print "gathering %s" % imgURL
-            urllib.urlretrieve(imgURL, os.path.join(save, os.path.basename(imgURL)))
+            if imgURL not in collection:
+                collection.append(imgURL)
+
+    download_images(collection, save)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="saves all images from a collection of html (raw) pages")
