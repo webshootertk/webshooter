@@ -25,7 +25,7 @@ def get_siteFiles(url, save, user, passwd):
     folder = fold.hostname
     location = save
 
-    _wget =    "/usr/local/Cellar/wget/1.14/bin/wget"
+    _wget =    "wget"
     _r =       "-r"
     _wait =    "--wait=7"
     _random =  "--random-wait"
