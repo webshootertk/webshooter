@@ -9,7 +9,6 @@ import shutil
 from sys import argv, exit
 
 def get_cleanFiles(path, topfile, bottomfile):
-    jekyll = "---\nlayout: default\ntitle: \n---\n\n"
 
     for f in os.listdir(path):
         print "trimming file %s" % path 
@@ -18,7 +17,6 @@ def get_cleanFiles(path, topfile, bottomfile):
         infile = infile[topfile: len(infile) - bottomfile]
         
         save = "".join(infile)
-        save = jekyll + save
         outfile = open(os.path.join(path, f), "w")
         outfile.write(save.encode("ascii", "xmlcharrefreplace"))
         outfile.close()

@@ -47,7 +47,7 @@ def worldEngine(url, href, src, option, resp, case):
     if get_fileContent(whole_site, extracted_files):
         print "!! Error: file_corrector did not finish !!"
     else:
-        print "** file_corrector finished **"
+        print "** file_extractor finished **"
 
     from file_corrector import get_correctedFiles 
     if get_correctedFiles(extracted_files, html_files, href, src):
@@ -115,3 +115,4 @@ if __name__ == "__main__":
         print " "
         print "You may want to run md_files through file_trimmer.py to remove unwated headers and footers"
         print "If so remember to then run head_adder.py again by hand"
+        print "to remove all generated files run webengine_cleanup.py"

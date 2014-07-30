@@ -74,9 +74,9 @@ Enter the shortname now."""
 description_prompt = """The description is displayed in your site's header, below the longname. Enter
 the description now."""
 
-templates = {1: ("bootstrap", "github.com/aims-group/hyde-bootstrap"),
-             2: ("one.5lab",  "github.com/aims-group/one.5lab"),
-             3: ("tshirt",    "github.com/aims-group/tshirt")}
+templates = {1: ("bootstrap", "github.com/webshootertk/hyde-bootstrap.git"),
+             2: ("one.5lab",  "github.com/webshootertk/hyde-one.5lab.git"),
+             3: ("tshirt",    "github.com/webshootertk/hyde-tshirt.git")}
 template_prompt = "What template to use?"
 for k,t in templates.items():
   template_prompt += "\n  " + str(k) + ": " + t[0] + " (" + t[1] + ")"
