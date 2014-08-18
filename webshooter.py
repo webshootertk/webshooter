@@ -13,6 +13,7 @@ import yaml
 from webreplace import replace
 from webhyde import HydeSite
 from webjekyll import JekyllSite
+from webjekyll import cleanup
 
 if sys.version_info[0] == 2:
   if raw_input("""I was written in Python 3.x, but you're running me with Python 2.x! I was NOT
@@ -200,5 +201,6 @@ def check_deps():
 def set_up_hyde():
   pass
 
-
+if static is "2":
+    cleanup(site);
 

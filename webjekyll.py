@@ -21,3 +21,7 @@ class JekyllSite:
       shutil.copy(self.shortname + "/blank.md", self.shortname + "/" + filename)
       replace(self.shortname + "/" + filename, "Blank", p)
 
+def cleanup(self):
+  lines = open(self.shortname + "/" + "blank.md", "r").readlines()
+  del lines[3]
+  open(self.shortname + "/" + "blank.md", "w").writelines(lines)
