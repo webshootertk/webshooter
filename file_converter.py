@@ -13,22 +13,35 @@ def get_convertedFiles(path, save, ext):
 
     if not os.path.exists(save):
         os.makedirs(save)
-    
+    #need to pass in hyde flag
+    #if hyde-flag is true
+        #file_ext = ".html"
+    #else
+        #file_ext = ".md"
     file_ext = ".md"
+    
     if ext is "html":
         file_ext = ".html"
 
     for f in os.listdir(path):
         extension = os.path.splitext(f)[1]
-        if extension not in (".md", ".py", ".pyc", ".pdf"):
-            print "converting file %s" % f
+        fileName = os.path.abspath(path) + "/" + f
+        if fileName[0] == "/":
+            fileName = fileName[1:]
+        fileName = fileName.replace("/","-")
+        #print "filename is " + fileName
+        if extension in (".php", ".html"):
             infile = open(os.path.join(path, f)).read()
             h2t = html2text.HTML2Text()
             content = h2t.handle(infile)
             if extension == ".html":
-                fileName = f[0:len(f) -5] + file_ext
+                fileName = fileName[0:len(fileName) -5] + file_ext
+            elif extension == ".php":
+                fileName = fileName[0:len(fileName) -4] + file_ext
             else:
-                fileName = f + ".md"
+                print "Failed"
+                fileName = f + file_ext
+            print fileName
             outfile = open(os.path.join(save, fileName), "w")
             outfile.write(content.encode("ascii", "xmlcharrefreplace"))
             outfile.close()

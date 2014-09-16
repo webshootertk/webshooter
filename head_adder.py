@@ -25,7 +25,7 @@ def add_headers(path, case):
                      "description: \n" + \
                      "---\n" + \
                      "\n" + \
-                     "{% extends \"topbar.j2\" %}\n" + \
+                     "{% extends \"base.j2\" %}\n" + \
                      "\n" + \
                      "{% block container %}" + \
                      infile + \

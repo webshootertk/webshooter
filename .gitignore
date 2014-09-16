@@ -16,3 +16,6 @@ image_files/
 whole_site/
 completed_files/
 *.gz
+www-pcmdi.llnl.gov/
+PCMDI/
+PCMDI_SAVE/
