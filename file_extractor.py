@@ -7,15 +7,17 @@ import shutil
 from bs4 import BeautifulSoup
 from sys import argv, exit
 
-def save_files(path, filename, infile):
+def save_files(path, filename, content):
     outfile = open(os.path.join(path, filename), "w")
-    outfile.write(infile)
+    outfile.write(content)
     outfile.close()
     print "saved file % s" % os.path.join(path, filename)
 
 def get_file(root, save, f, path, outfile):
     infile = open(os.path.join(root, f)).read()
     tree = BeautifulSoup(infile, "html5lib")
+
+    #this is bad and I feel bad
     try:
         content = tree.body.find("div", id="content").prettify()
         #print "found <div id=\"content\">"
@@ -30,11 +32,12 @@ def get_file(root, save, f, path, outfile):
             except:
                 content = infile
                 #print "Leaving file as is"
+    #end of feeling bad
 
     filename = outfile
     if filename in ("index.html", "index.php"):
         filename = path[len(path) - 1] + ".html"
-    save_files(save, filename, infile)    
+    save_files(save, filename, content)    
 
 def get_fileContent(path, save):
 
