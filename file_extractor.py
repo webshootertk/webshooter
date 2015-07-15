@@ -9,7 +9,7 @@ from sys import argv, exit
 
 def save_files(path, filename, content):
     outfile = open(os.path.join(path, filename), "w")
-    outfile.write(content)
+    outfile.write(content.encode("ascii", "xmlcharrefreplace"))
     outfile.close()
     print "saved file % s" % os.path.join(path, filename)
 

@@ -16,3 +16,4 @@ image_files/
 whole_site/
 completed_files/
 *.gz
+env/
