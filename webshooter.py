@@ -10,6 +10,7 @@ import sys
 import tempfile
 import time
 import yaml
+import pdb
 from webreplace import replace
 from webhyde import HydeSite
 from webjekyll import JekyllSite
@@ -175,8 +176,10 @@ else:
 
 # Pages
     print(pages_prompt)
+    #pdb.set_trace()
     while not bool(site.pages):
       site.pages = [ p.strip() for p in raw_input("pages> Home, ").split(",") ]
+      print (site.pages)
 
 # Set up the site
     if static is "1":
