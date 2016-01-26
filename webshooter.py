@@ -176,7 +176,6 @@ else:
 
 # Pages
     print(pages_prompt)
-    #pdb.set_trace()
     while not bool(site.pages):
       site.pages = [ p.strip() for p in raw_input("pages> Home, ").split(",") ]
       print (site.pages)
