@@ -1,6 +1,5 @@
 import shutil
 import site
-import pdb
 from webreplace import replace
 
 class JekyllSite(object):
@@ -17,9 +16,10 @@ class JekyllSite(object):
   @pages.setter 
   def pages(self, pages):
     for p in pages:
-      self.pages.append({"title": p, "url": p})
-      shutil.copy(self.shortname + "/blank.md", self.shortname + "/" + p + ".md")
-      replace(self.shortname + "/" + p + ".md", "Blank", p)
+      filename = p.lower().replace(" ", "-") + ".md"
+      self.pages.append({"title": p, "url": filename})
+      shutil.copy(self.shortname + "/blank.md", self.shortname + "/" + filename)
+      replace(self.shortname + "/" + filename, "Blank", p)
 
 def cleanup(self):
   lines = open(self.shortname + "/" + "blank.md", "r").readlines()

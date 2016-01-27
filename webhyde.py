@@ -30,9 +30,9 @@ class HydeSite(object):
   def pages(self, pages):
     for p in pages:
       filename = p.lower().replace(" ", "-") + ".html"
-      self.site_yaml["context"]["data"]["menu"].append({"title": p, "url": p})
-      shutil.copy(self.shortname + "/content/blank.html", self.shortname + "/content/" + p + ".md")
-      replace(self.shortname + "/content/" + p + ".md", "Page name", p)
+      self.site_yaml["context"]["data"]["menu"].append({"title": p, "url": filename})
+      shutil.copy(self.shortname + "/content/blank.html", self.shortname + "/content/" + filename)
+      replace(self.shortname + "/content/" + filename, "Page name", p)
 
   @property
   def yaml(self):

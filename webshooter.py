@@ -82,6 +82,7 @@ commands:
   gen <site_path>  Regenerate a Hyde site at `site_path`
   build <site_path Regenerate a Jekyll site at 'site_path'"""
   )
+  sys.exit()
 elif ( len(sys.argv) is 3 and sys.argv[2] == "--help" ) or ( len(sys.argv) is 2 and sys.argv[1] == "gen" ):
   if sys.argv[1] == "new":
     print("""usage: """ + sys.argv[0] + """ new [--help]
@@ -117,7 +118,7 @@ else:
 
 # option
     print(options_prompt)
-    while static not in {"1", "2"}:
+    while static not in ("1", "2"):
       try:
         static = str(input("option> ")).strip()
       except (KeyError, ValueError):
@@ -177,7 +178,6 @@ else:
     print(pages_prompt)
     while not bool(site.pages):
       site.pages = [ p.strip() for p in raw_input("pages> Home, ").split(",") ]
-      print (site.pages)
 
 # Set up the site
     if static is "1":
