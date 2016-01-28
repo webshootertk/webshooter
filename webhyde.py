@@ -3,7 +3,7 @@ import site
 import yaml
 from webreplace import replace
 
-class HydeSite:
+class HydeSite(object):
   def __init__(self):
     self.shortname = None
     self.hyde_template  = None

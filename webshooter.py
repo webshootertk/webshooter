@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 
 import getpass
 import os
@@ -15,8 +15,8 @@ from webhyde import HydeSite
 from webjekyll import JekyllSite
 from webjekyll import cleanup
 
-if sys.version_info[0] == 2:
-  if raw_input("""I was written in Python 3.x, but you're running me with Python 2.x! I was NOT
+if sys.version_info[0] == 3:
+  if raw_input("""I was written in Python 2.x, but you're running me with Python 3.x! I was NOT
 tested with this version. Run anyway? [y/N] """).lower() != "y":
     sys.exit()
 
@@ -58,14 +58,16 @@ pages_prompt = """What pages will exist?
   Separate pages with commas. Enter pages in longname format; shortnames will be
   generated automatically."""
 
+set_null = open(os.devnull, 'w')
+
 def hyde_gen(path):
-  subprocess.Popen(["hyde", "gen"], cwd=path, stdout=subprocess.DEVNULL)
+  subprocess.Popen(["hyde", "gen"], cwd=path, stdout=set_null)
   replace(path + '/.git/config', 'origin', 'upstream')
   print("Complete! Now open\n\n  " + os.path.abspath(path) + "/deploy/index.html\n\nin a web browser.\n")
   print("To keep your site style up to date you can run\n\n  git pull upstream master\n") 
 
 def jekyll_build(path):
-  subprocess.Popen(["jekyll", "build"], cwd=path, stdout=subprocess.DEVNULL)
+  subprocess.Popen(["jekyll", "build"], cwd=path, stdout=set_null)
   replace(path + '/.git/config', 'origin', 'upstream')
   print("Complete! Now open\n\n  " + os.path.abspath(path) + "/_site/index.html\n\nin a web browser.\n")
   print("To keep your site style up to date you can run\n\n  git pull upstream master\n") 
@@ -80,6 +82,7 @@ commands:
   gen <site_path>  Regenerate a Hyde site at `site_path`
   build <site_path Regenerate a Jekyll site at 'site_path'"""
   )
+  sys.exit()
 elif ( len(sys.argv) is 3 and sys.argv[2] == "--help" ) or ( len(sys.argv) is 2 and sys.argv[1] == "gen" ):
   if sys.argv[1] == "new":
     print("""usage: """ + sys.argv[0] + """ new [--help]
@@ -115,9 +118,9 @@ else:
 
 # option
     print(options_prompt)
-    while static not in {"1", "2"}:
+    while static not in ("1", "2"):
       try:
-        static = input("option> ").strip()
+        static = str(input("option> ")).strip()
       except (KeyError, ValueError):
         pass
 
@@ -133,17 +136,17 @@ else:
 # longname
     print(longname_prompt)
     while not bool(site.longname):
-      site.longname = input("longname> ").strip()
+      site.longname = raw_input("longname> ").strip()
 
 # shortname
     print(shortname_prompt)
     while not bool(site.shortname):
-      site.shortname = input("shortname> ").strip()
+      site.shortname = raw_input("shortname> ").strip()
       if re.search("\s", site.shortname) is not None:
         site.shortname = ""
         print("The shortname cannot have spaces, try again.")
       elif os.path.exists(site.shortname):
-        if input("A file/folder named " + site.shortname + " already exists here. Delete the whole thing [y/N]? ").lower() == 'y':
+        if raw_input("A file/folder named " + site.shortname + " already exists here. Delete the whole thing [y/N]? ").lower() == 'y':
           shutil.rmtree(site.shortname)
         else:
           site.shortname = ""
@@ -153,7 +156,7 @@ else:
       print(hyde_template_prompt)
       while site.hyde_template not in hyde_templates.values():
         try:
-          site.hyde_template = hyde_templates[int(input("template> ").strip())]
+          site.hyde_template = hyde_templates[int(raw_input("template> ").strip())]
         except (KeyError, ValueError):
           pass
       subprocess.call(["git", "clone", "git://" + site.hyde_template[1], site.shortname])
@@ -161,7 +164,7 @@ else:
       print(jekyll_template_prompt)
       while site.jekyll_templates not in jekyll_templates.values():
         try:
-          site.jekyll_templates = jekyll_templates[int(input("template> ").strip())]
+          site.jekyll_templates = jekyll_templates[int(raw_input("template> ").strip())]
         except (KeyError, ValueError):
           pass
       subprocess.call(["git", "clone", "git://" + site.jekyll_templates[1], site.shortname])
@@ -174,7 +177,7 @@ else:
 # Pages
     print(pages_prompt)
     while not bool(site.pages):
-      site.pages = [ p.strip() for p in input("pages> Home, ").split(",") ]
+      site.pages = [ p.strip() for p in raw_input("pages> Home, ").split(",") ]
 
 # Set up the site
     if static is "1":

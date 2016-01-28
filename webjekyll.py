@@ -2,7 +2,7 @@ import shutil
 import site
 from webreplace import replace
 
-class JekyllSite:
+class JekyllSite(object):
   def __init__(self):
     self.shortname = None
     self.longname = None
